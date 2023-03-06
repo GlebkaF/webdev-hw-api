@@ -18,7 +18,7 @@ let todos = [
 ];
 
 export default function handler(req, res) {
-  res.status(200).json({ todos });
+  res.status(200).json({ todos: todos.slice(-10) });
 }
 
 export function setTodos(newTodos) {
