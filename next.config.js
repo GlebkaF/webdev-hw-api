@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  generateEtags: false,
   async headers() {
     return [
       {
@@ -18,6 +19,7 @@ const nextConfig = {
             value:
               "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
           },
+          { key: "Cache-Control", value: "no-store" },
         ],
       },
     ];
