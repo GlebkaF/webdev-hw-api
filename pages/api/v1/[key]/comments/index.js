@@ -7,6 +7,7 @@ function createComment(text, authorName) {
     id: generateId(),
     date: new Date(),
     likes: 0,
+    isLiked: false,
     text,
     author: {
       name: authorName,
