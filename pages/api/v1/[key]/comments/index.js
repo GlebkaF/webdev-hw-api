@@ -77,6 +77,10 @@ export function addComment(key, comment) {
 }
 
 export function getComments(key) {
+  if (!comments[key]) {
+    comments[key] = [createComment("Это мой первый комментарий", "Глеб Фокин")];
+  }
+
   return comments[key] ?? [];
 }
 
