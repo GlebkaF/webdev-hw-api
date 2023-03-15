@@ -67,7 +67,7 @@
 
 ## Добавить новую задачу в список (ненадежное)
 
-адрес: https://webdev-hw-api.vercel.app/api/todos/with-errors
+адрес: https://webdev-hw-api.vercel.app/api/todos/with-error
 
 метод: POST
 
