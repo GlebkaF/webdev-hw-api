@@ -1,21 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-let lastId = 1;
-
-let todos = [
-  {
-    id: generateId(),
-    text: "Сделать чаю",
-  },
-  {
-    id: generateId(),
-    text: "Выпить чаю",
-  },
-  {
-    id: generateId(),
-    text: "Отдохнуть",
-  },
-];
+import { generateId, getTodos, todos } from ".";
 
 export default function handler(req, res) {
   if (Math.random() > 0.5) {
@@ -47,16 +32,4 @@ export default function handler(req, res) {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
-
-export function setTodos(newTodos) {
-  todos = newTodos;
-}
-
-export function getTodos() {
-  return todos.slice(-10);
-}
-
-export function generateId() {
-  return lastId++;
 }

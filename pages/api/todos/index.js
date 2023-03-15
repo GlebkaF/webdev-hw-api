@@ -2,7 +2,7 @@
 
 let lastId = 1;
 
-let todos = [
+export let todos = [
   {
     id: generateId(),
     text: "Сделать чаю",
