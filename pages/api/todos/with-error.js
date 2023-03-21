@@ -12,8 +12,16 @@ export default function handler(req, res) {
   try {
     if (req.method === "POST") {
       try {
+        const newText = JSON.parse(req.body).text;
+
+        if (newText === "ничего") {
+          return res
+            .status(400)
+            .json({ error: "ничего делать нельзя, сделай что нибудь другое" });
+        }
+
         const todo = {
-          text: JSON.parse(req.body).text,
+          text: newText,
           id: generateId(),
         };
 
