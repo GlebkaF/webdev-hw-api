@@ -32,7 +32,15 @@ export default function handler(req, res) {
   try {
     if (req.method === "POST") {
       try {
-        const { text, name } = JSON.parse(req.body);
+        const { text, name, forceError } = JSON.parse(req.body);
+
+        if (forceError) {
+          if (Math.random() > 0.5) {
+            return res
+              .status(500)
+              .json({ error: "Извините сервер упал, попробуйте позже" });
+          }
+        }
 
         if (!text) {
           return res.status(400).json({ error: "В теле не передан text" });
