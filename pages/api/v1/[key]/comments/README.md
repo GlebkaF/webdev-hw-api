@@ -60,3 +60,5 @@ https://webdev-hw-api.vercel.app/api/v1/gleb-fokin/comments
 ```json
 { "error": "name должен содержать хотя бы 3 символа" }
 ```
+
+Если в теле запроса дополнительно передать параметр `forceError: true`, то сервер через раз будет падать с 500 ошибкой.
