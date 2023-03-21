@@ -20,9 +20,17 @@ export let todos = [
 export default function handler(req, res) {
   try {
     if (req.method === "POST") {
+      const newText = JSON.parse(req.body).text;
+
+      if (newText === "ничего") {
+        return res
+          .status(400)
+          .json({ error: "ничего делать нельзя, сделай что нибудь другое" });
+      }
+
       try {
         const todo = {
-          text: JSON.parse(req.body).text,
+          text: newText,
           id: generateId(),
         };
 
