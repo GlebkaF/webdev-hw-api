@@ -3,11 +3,12 @@ let string = "";
 export default function handler(req, res) {
   if (req.method === "POST") {
     try {
-      if (typeof string !== "string") {
+      const newString = JSON.parse(req.body).string;
+      if (typeof newString !== "string") {
         return res.status(400).json({ error: "Передана не строка" });
       }
 
-      string = JSON.parse(req.body).string;
+      string = newString;
 
       return res.status(201).json({ string });
     } catch (error) {
