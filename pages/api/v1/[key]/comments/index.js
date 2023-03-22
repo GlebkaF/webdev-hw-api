@@ -2,7 +2,7 @@
 
 let lastId = 1;
 
-function createComment(text, authorName) {
+function createComment(text, authorName, date = new Date()) {
   return {
     id: generateId(),
     date: new Date(),
@@ -86,7 +86,13 @@ export function addComment(key, comment) {
 
 export function getComments(key) {
   if (!comments[key]) {
-    comments[key] = [createComment("Это мой первый комментарий", "Глеб Фокин")];
+    comments[key] = [
+      createComment(
+        "Это мой первый комментарий",
+        "Глеб Фокин",
+        new Date("2023-02-22T08:19:03.916Z")
+      ),
+    ];
   }
 
   return comments[key] ?? [];
