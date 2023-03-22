@@ -5,7 +5,7 @@ let lastId = 1;
 function createComment(text, authorName, date = new Date()) {
   return {
     id: generateId(),
-    date: new Date(),
+    date,
     likes: 0,
     isLiked: false,
     text,
@@ -90,7 +90,7 @@ export function getComments(key) {
       createComment(
         "Это мой первый комментарий",
         "Глеб Фокин",
-        new Date("2023-02-22T08:19:03.916Z")
+        new Date("2023-01-01T08:19:00.916Z")
       ),
     ];
   }
