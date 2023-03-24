@@ -1,23 +1,21 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
+import { getUserFromRequest } from "@/pages/api/user/helpers";
+
 let lastId = 1;
 
-function createComment(text, authorName, date = new Date()) {
+function createComment(text, user, date = new Date()) {
   return {
     id: generateId(),
     date,
     likes: 0,
     isLiked: false,
     text,
-    author: {
-      name: authorName,
-    },
+    author: user,
   };
 }
 
-const comments = {
-  "gleb-fokin": [createComment("Это мой первый лайк", "Глеб Фокин")],
-};
+const comments = {};
 
 export default function handler(req, res) {
   const key = req.query.key;
@@ -32,28 +30,15 @@ export default function handler(req, res) {
   try {
     if (req.method === "POST") {
       try {
-        const { text, name, forceError } = JSON.parse(req.body);
+        const { text } = JSON.parse(req.body);
+        const user = getUserFromRequest(req);
 
-        if (forceError) {
-          if (Math.random() > 0.5) {
-            return res
-              .status(500)
-              .json({ error: "Извините сервер упал, попробуйте позже" });
-          }
+        if (!user) {
+          return res.status(500).json({ error: "Сломалась авторизация" });
         }
 
         if (!text) {
           return res.status(400).json({ error: "В теле не передан text" });
-        }
-
-        if (!name) {
-          return res.status(400).json({ error: "В теле не передан name" });
-        }
-
-        if (name.length < 3) {
-          return res
-            .status(400)
-            .json({ error: "name должен содержать хотя бы 3 символа" });
         }
 
         if (text.length < 3) {
@@ -62,7 +47,7 @@ export default function handler(req, res) {
             .json({ error: "text должен содержать хотя бы 3 символа" });
         }
 
-        addComment(key, createComment(text, name));
+        addComment(key, createComment(text, user));
 
         return res.status(201).json({ result: "ok" });
       } catch (error) {
@@ -89,7 +74,7 @@ export function getComments(key) {
     comments[key] = [
       createComment(
         "Это мой первый комментарий",
-        "Глеб Фокин",
+        { id: 1, login: "admin", name: "Админ Глеб" },
         new Date("2023-01-01T08:19:00.916Z")
       ),
     ];

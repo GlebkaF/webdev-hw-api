@@ -1,5 +1,7 @@
 # Документация API “Пользователи”
 
+В апи уже заведен пользователь admin с паролем admin, его можно использовать для отладки.
+
 ## Получить список пользователей
 
 адрес: https://webdev-hw-api.vercel.app/api/user
@@ -32,9 +34,9 @@
 
 ```json
 {
-    "login": "glebka",
-    "name": "Глеб Фокин",
-    "password": "123456",
+  "login": "glebka",
+  "name": "Глеб Фокин",
+  "password": "123456"
 }
 ```
 
@@ -66,8 +68,8 @@
 
 ```json
 {
-    "login": "glebka",
-    "password": "123456",
+  "login": "glebka",
+  "password": "123456"
 }
 ```
 
