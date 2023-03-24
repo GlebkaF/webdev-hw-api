@@ -1,7 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { find, omit } from "lodash";
-
 let lastId = 1;
 const users = [];
 
@@ -61,7 +59,13 @@ export default function handler(req, res) {
       }
     }
     return res.status(200).json({
-      users: users.map((user) => omit(user, ["token", "password"])),
+      users: users.map((user) => {
+        return {
+          id: user.id,
+          login: user.login,
+          name: user.name,
+        };
+      }),
     });
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -69,15 +73,22 @@ export default function handler(req, res) {
 }
 
 export function loginUser({ login, password }) {
-  return find(users, { login, password }) ?? null;
+  return (
+    users.find((user) => user.login === login && user.password === password) ??
+    null
+  );
 }
 
 export function getUserByToken({ token }) {
-  return find(users, { token }) ?? null;
+  return users.find((user) => user.token === token) ?? null;
+}
+
+export function getUserByLogin({ login }) {
+  return users.find((user) => user.login === login) ?? null;
 }
 
 function registerUser({ login, password, name }) {
-  const existingUser = find(users, { login });
+  const existingUser = getUserByLogin({ login });
 
   if (existingUser) {
     throw new Error("Пользователь с таким логином уже существует");
