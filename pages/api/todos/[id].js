@@ -19,11 +19,6 @@ export default function handler(req, res) {
 
     return res.status(200).json({ todos: getTodos() });
   }
-
-  if (req.method === "OPTIONS") {
-    return res.status(200).json({});
-  }
-
   const todo = todos.find((todo) => todo.id === parseInt(id));
 
   if (todo) {

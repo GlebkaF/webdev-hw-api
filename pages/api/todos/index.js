@@ -1,23 +1,30 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
+import { getUserFromRequest } from "../user/helpers";
+
 let lastId = 1;
 
 export let todos = [
   {
     id: generateId(),
     text: "Сделать чаю",
+    user: null,
   },
   {
     id: generateId(),
     text: "Выпить чаю",
+    user: null,
   },
   {
     id: generateId(),
     text: "Отдохнуть",
+    user: null,
   },
 ];
 
 export default function handler(req, res) {
+  const user = getUserFromRequest(req);
+
   try {
     if (req.method === "POST") {
       const newText = JSON.parse(req.body).text;
@@ -32,6 +39,7 @@ export default function handler(req, res) {
         const todo = {
           text: newText,
           id: generateId(),
+          user,
         };
 
         todos.push(todo);
