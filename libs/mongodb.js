@@ -1,5 +1,4 @@
 import { MongoClient } from "mongodb";
-// pass 35R0nUwSmE49HP5U
 
 //
 const MONGODB_URI = process.env.MONGODB_URI;
