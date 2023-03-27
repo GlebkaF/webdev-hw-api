@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getUserFromRequest } from "@/pages/api/user/helpers";
+import { getUserFromRequest } from "@/libs/users";
 
 let lastId = 1;
 

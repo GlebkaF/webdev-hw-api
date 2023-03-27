@@ -35,7 +35,11 @@ export default function handler(req, res, user = null) {
         const todo = {
           text: newText,
           id: generateId(),
-          user,
+          user: user
+            ? {
+                name: user.name,
+              }
+            : null,
         };
 
         todos.push(todo);
