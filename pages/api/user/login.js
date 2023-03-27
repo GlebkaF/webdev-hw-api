@@ -1,12 +1,12 @@
-import { loginUser } from ".";
+import { loginUser } from "@/libs/users";
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   try {
     if (req.method === "POST") {
       try {
         const { login, password } = JSON.parse(req.body);
 
-        const user = loginUser({ login, password });
+        const user = await loginUser({ login, password });
         if (user) {
           return res.status(201).json({ user });
         } else {

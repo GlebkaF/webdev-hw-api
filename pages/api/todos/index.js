@@ -1,7 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { getUserFromRequest } from "../user/helpers";
-
 let lastId = 1;
 
 export let todos = [
@@ -22,9 +20,7 @@ export let todos = [
   },
 ];
 
-export default function handler(req, res) {
-  const user = getUserFromRequest(req);
-
+export default function handler(req, res, user = null) {
   try {
     if (req.method === "POST") {
       const newText = JSON.parse(req.body).text;

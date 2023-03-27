@@ -1,11 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-let lastId = 1;
-const users = [];
+import { getUsers, registerUser } from "@/libs/users";
 
-registerUser({ login: "admin", password: "admin", name: "Админ Глеб" });
-
-export default function handler(req, res) {
+export default async function handler(req, res) {
   try {
     if (req.method === "POST") {
       try {
@@ -42,7 +39,7 @@ export default function handler(req, res) {
         }
 
         try {
-          const user = registerUser({ login, password, name });
+          const user = await registerUser({ login, password, name });
 
           return res.status(201).json({ user });
         } catch (error) {
@@ -58,8 +55,9 @@ export default function handler(req, res) {
           .json({ error: "В теле запроса невалидный JSON" });
       }
     }
+    const asd = await getUsers();
     return res.status(200).json({
-      users: users.map((user) => {
+      users: asd.map((user) => {
         return {
           id: user.id,
           login: user.login,
@@ -70,44 +68,4 @@ export default function handler(req, res) {
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
-}
-
-export function loginUser({ login, password }) {
-  return (
-    users.find((user) => user.login === login && user.password === password) ??
-    null
-  );
-}
-
-export function getUserByToken({ token }) {
-  return users.find((user) => user.token === token) ?? null;
-}
-
-export function getUserByLogin({ login }) {
-  return users.find((user) => user.login === login) ?? null;
-}
-
-function registerUser({ login, password, name }) {
-  const existingUser = getUserByLogin({ login });
-
-  if (existingUser) {
-    throw new Error("Пользователь с таким логином уже существует");
-  }
-
-  const user = {
-    id: generateId(),
-    login,
-    password,
-    name,
-    token: `${login}:${password}:${name}`
-      .split("")
-      .map((s) => (s.codePointAt() << 2).toString("36"))
-      .join(""),
-  };
-  users.push(user);
-  return user;
-}
-
-function generateId() {
-  return lastId++;
 }

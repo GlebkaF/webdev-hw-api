@@ -17,7 +17,7 @@ function createComment(text, user, date = new Date()) {
 
 const comments = {};
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   const key = req.query.key;
 
   if (key === ":personal-key") {
@@ -27,15 +27,16 @@ export default function handler(req, res) {
     });
   }
 
+  const user = await getUserFromRequest(req);
+
+  if (!user) {
+    return res.status(401).json({ error: "Нет авторизации" });
+  }
+
   try {
     if (req.method === "POST") {
       try {
         const { text } = JSON.parse(req.body);
-        const user = getUserFromRequest(req);
-
-        if (!user) {
-          return res.status(500).json({ error: "Сломалась авторизация" });
-        }
 
         if (!text) {
           return res.status(400).json({ error: "В теле не передан text" });
