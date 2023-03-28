@@ -27,6 +27,10 @@ export default async function handler(req, res) {
     });
   }
 
+  if (req.method === "GET") {
+    return res.status(200).json({ comments: getComments(key) });
+  }
+
   const user = await getUserFromRequest(req);
 
   if (!user) {
@@ -59,7 +63,7 @@ export default async function handler(req, res) {
           .json({ error: "В теле запроса невалидный JSON" });
       }
     }
-    res.status(200).json({ comments: getComments(key) });
+    res.status(404).json({});
     return;
   } catch (error) {
     res.status(500).json({ error: error.message });

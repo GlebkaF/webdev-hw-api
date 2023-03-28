@@ -1,9 +1,8 @@
 import { MongoClient } from "mongodb";
 
-//
 const MONGODB_URI = process.env.MONGODB_URI;
 
-const MONGODB_DB = "webdev-hw-api";
+const MONGODB_DB = process.env.MONGODB_DB ?? "webdev-hw-api";
 
 // check the MongoDB URI
 if (!MONGODB_URI) {
