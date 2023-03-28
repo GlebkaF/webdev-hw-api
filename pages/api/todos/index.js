@@ -6,16 +6,19 @@ export let todos = [
   {
     id: generateId(),
     text: "Сделать чаю",
+    created_at: new Date("2023-01-02T08:19:00.916Z"),
     user: null,
   },
   {
     id: generateId(),
     text: "Выпить чаю",
+    created_at: new Date("2023-01-03T08:19:00.916Z"),
     user: null,
   },
   {
     id: generateId(),
     text: "Отдохнуть",
+    created_at: new Date("2023-01-04T08:19:00.916Z"),
     user: null,
   },
 ];
@@ -25,7 +28,7 @@ export default function handler(req, res, user = null) {
     if (req.method === "POST") {
       const newText = JSON.parse(req.body).text;
 
-      if (newText === "ничего") {
+      if (newText.toLowerCase() === "ничего") {
         return res
           .status(400)
           .json({ error: "ничего делать нельзя, сделай что нибудь другое" });
@@ -35,6 +38,7 @@ export default function handler(req, res, user = null) {
         const todo = {
           text: newText,
           id: generateId(),
+          created_at: new Date(),
           user: user
             ? {
                 name: user.name,

@@ -1,7 +1,8 @@
 import { MongoClient } from "mongodb";
 
-const MONGODB_URI = process.env.MONGODB_URI;
+// TODO: сделать проверку на индексы в users
 
+const MONGODB_URI = process.env.MONGODB_URI;
 const MONGODB_DB = process.env.MONGODB_DB ?? "webdev-hw-api";
 
 // check the MongoDB URI
