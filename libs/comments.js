@@ -73,3 +73,9 @@ export async function toggleLike({ user, id }) {
     }
   );
 }
+
+export async function deleteComment({ id }) {
+  const { db } = await connectToDatabase();
+
+  return db.collection("comments").deleteOne({ _id: new ObjectId(id) });
+}
