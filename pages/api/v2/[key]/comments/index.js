@@ -1,21 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
+import { addComment, getComments } from "@/libs/comments";
 import { getUserFromRequest } from "@/libs/users";
-
-let lastId = 1;
-
-function createComment(text, user, date = new Date()) {
-  return {
-    id: generateId(),
-    date,
-    likes: 0,
-    isLiked: false,
-    text,
-    author: user,
-  };
-}
-
-const comments = {};
 
 export default async function handler(req, res) {
   const key = req.query.key;
@@ -27,11 +13,27 @@ export default async function handler(req, res) {
     });
   }
 
-  if (req.method === "GET") {
-    return res.status(200).json({ comments: getComments(key) });
-  }
-
   const user = await getUserFromRequest(req);
+
+  if (req.method === "GET") {
+    const comments = await getComments(key);
+
+    return res.status(200).json({
+      comments: comments.map((comment) => {
+        return {
+          id: comment._id,
+          date: comment.date,
+          text: comment.text,
+          author: {
+            name: comment.user.name,
+            login: comment.user.login,
+          },
+          likes: comment.likes.length,
+          isLiked: !!comment.likes.find((like) => like.login === user?.login),
+        };
+      }),
+    });
+  }
 
   if (!user) {
     return res.status(401).json({ error: "Нет авторизации" });
@@ -52,7 +54,11 @@ export default async function handler(req, res) {
             .json({ error: "text должен содержать хотя бы 3 символа" });
         }
 
-        addComment(key, createComment(text, user));
+        await addComment({
+          key,
+          user,
+          text,
+        });
 
         return res.status(201).json({ result: "ok" });
       } catch (error) {
@@ -68,26 +74,4 @@ export default async function handler(req, res) {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
-
-export function addComment(key, comment) {
-  comments[key] = [...getComments(key), comment];
-}
-
-export function getComments(key) {
-  if (!comments[key]) {
-    comments[key] = [
-      createComment(
-        "Это мой первый комментарий",
-        { id: 1, login: "admin", name: "Админ Глеб" },
-        new Date("2023-01-01T08:19:00.916Z")
-      ),
-    ];
-  }
-
-  return comments[key] ?? [];
-}
-
-export function generateId() {
-  return lastId++;
 }

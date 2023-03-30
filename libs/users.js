@@ -10,6 +10,11 @@ export async function getUserByToken({ token }) {
   return db.collection("users").findOne({ token });
 }
 
+export async function getUserByLogin({ login }) {
+  const { db } = await connectToDatabase();
+  return db.collection("users").findOne({ login });
+}
+
 export async function getUsers() {
   const { db } = await connectToDatabase();
 
@@ -44,8 +49,7 @@ export async function getUserFromRequest(req) {
 
   const [_, token] = authorizationHeader.split(" ");
 
-  const { db } = await connectToDatabase();
-  const user = db.collection("users").findOne({ token });
+  const user = await getUserByToken({ token });
 
   if (!user) {
     return null;

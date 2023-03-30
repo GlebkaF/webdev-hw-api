@@ -1,0 +1,18 @@
+
+use('webdev-hw-api-test')
+
+
+
+// db.users.insert({
+//    "login": "admi2n",
+//     "password": "admin",
+//     "name": "Глеб Админ",
+//     "token": "asb4c4boc86gasb4c4boc86g37w3cc3bo3b83k37k3bk3cg3c03ck"
+// })
+
+
+
+
+// db.comments.drop();
+
+db.comments.find()
