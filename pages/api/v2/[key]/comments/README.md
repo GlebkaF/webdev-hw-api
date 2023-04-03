@@ -1,4 +1,4 @@
-# Документация API “Лента комментариев”
+# Документация API “Лента комментариев” v2
 
 **Base url:** https://webdev-hw-api.vercel.app/api/v2/:personal-key
 
