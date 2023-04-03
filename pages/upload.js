@@ -6,7 +6,7 @@ const UploadForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const response = await fetch("/api/upload", {
+    const response = await fetch("/api/upload/image", {
       method: "POST",
       body: formData,
     });
