@@ -1,6 +1,19 @@
+use("webdev-hw-api-test");
 
-use('webdev-hw-api-test')
+db.users.createIndex(
+  {
+    login: 1,
+  },
+  { unique: true }
+);
 
-db.users.createIndex({
-  login: 1
-}, {unique: true})
+db.users.update(
+  {},
+  {
+    $set: {
+      imageUrl:
+        "https://storage.yandexcloud.net/skypro-webdev-homework-bucket/1680601502867-%25C3%2590%25C2%25A1%25C3%2590%25C2%25BD%25C3%2590%25C2%25B8%25C3%2590%25C2%25BC%25C3%2590%25C2%25BE%25C3%2590%25C2%25BA%2520%25C3%2591%25C2%258D%25C3%2590%25C2%25BA%25C3%2591%25C2%2580%25C3%2590%25C2%25B0%25C3%2590%25C2%25BD%25C3%2590%25C2%25B0%25202023-04-04%2520%25C3%2590%25C2%25B2%252014.04.29.png",
+    },
+  },
+  { multi: true }
+);

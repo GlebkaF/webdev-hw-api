@@ -21,7 +21,7 @@ export async function getUsers() {
   return db.collection("users").find({}).toArray();
 }
 
-export async function registerUser({ login, password, name }) {
+export async function registerUser({ login, password, name, imageUrl }) {
   const { db } = await connectToDatabase();
   const existingUser = await db.collection("users").findOne({ login });
 
@@ -33,6 +33,7 @@ export async function registerUser({ login, password, name }) {
     login,
     password,
     name,
+    imageUrl,
     token: `${login}:${password}:${name}`
       .split("")
       .map((s) => (s.codePointAt() << 2).toString("36"))
