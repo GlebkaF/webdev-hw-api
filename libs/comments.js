@@ -56,15 +56,15 @@ export async function toggleLike({ user, id }) {
     throw new Error("Комментарий не найден");
   }
 
-  const foundLike = comment.likes.find(({ login }) => user.login === login);
+  const isLiked = !!comment.likes.find(({ login }) => user.login === login);
 
-  const newLikes = foundLike
+  const newLikes = isLiked
     ? comment.likes.filter(({ login }) => user.login !== login)
     : [...comment.likes, user];
 
   const { db } = await connectToDatabase();
 
-  return db.collection("comments").updateOne(
+  await db.collection("comments").updateOne(
     { _id: new ObjectId(id) },
     {
       $set: {
@@ -72,6 +72,11 @@ export async function toggleLike({ user, id }) {
       },
     }
   );
+
+  return {
+    likes: newLikes.length,
+    isLiked: !isLiked,
+  };
 }
 
 export async function deleteComment({ id }) {
