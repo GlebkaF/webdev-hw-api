@@ -107,3 +107,23 @@ export async function dislikePost({ user, id }) {
     }
   );
 }
+
+export function mapPost(post, user) {
+  return {
+    id: post._id,
+    imageUrl: post.imageUrl,
+    createdAt: post.createdAt,
+    description: post.description,
+    user: {
+      id: post.user._id,
+      name: post.user.name,
+      login: post.user.login,
+      imageUrl: post.user.imageUrl,
+    },
+    likes: post.likes.map((like) => ({
+      id: like._id,
+      name: like.name,
+    })),
+    isLiked: !!post.likes.find((like) => like.login === user?.login),
+  };
+}

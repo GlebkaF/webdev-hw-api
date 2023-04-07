@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { addPost, getPosts } from "@/libs/instapro";
+import { addPost, getPosts, mapPost } from "@/libs/instapro";
 import { getUserFromRequest } from "@/libs/users";
 
 export default async function handler(req, res) {
@@ -13,33 +13,13 @@ export default async function handler(req, res) {
     });
   }
 
-  console.log({ key });
-
   const user = await getUserFromRequest(req);
 
   if (req.method === "GET") {
     const posts = await getPosts({ key });
 
     return res.status(200).json({
-      posts: posts.map((comment) => {
-        return {
-          id: comment._id,
-          imageUrl: comment.imageUrl,
-          createdAt: comment.createdAt,
-          description: comment.description,
-          user: {
-            id: comment.user._id,
-            name: comment.user.name,
-            login: comment.user.login,
-            imageUrl: comment.user.imageUrl,
-          },
-          likes: comment.likes.map((like) => ({
-            id: like._id,
-            name: like.name,
-          })),
-          isLiked: !!comment.likes.find((like) => like.login === user?.login),
-        };
-      }),
+      posts: posts.map((post) => mapPost(post, user)),
     });
   }
 

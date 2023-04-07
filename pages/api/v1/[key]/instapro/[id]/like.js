@@ -1,4 +1,4 @@
-import { findPost, likePost } from "@/libs/instapro";
+import { findPost, likePost, mapPost } from "@/libs/instapro";
 import { getUserFromRequest } from "@/libs/users";
 
 export default async function handler(req, res) {
@@ -18,7 +18,7 @@ export default async function handler(req, res) {
     await likePost({ id, user });
     const post = await findPost(id);
 
-    return res.status(200).json({ post });
+    return res.status(200).json({ post: mapPost(post, user) });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
