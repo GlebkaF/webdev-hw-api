@@ -127,3 +127,9 @@ export function mapPost(post, user) {
     isLiked: !!post.likes.find((like) => like.login === user?.login),
   };
 }
+
+export async function deletePost({ id }) {
+  const { db } = await connectToDatabase();
+
+  return db.collection("instapro_posts").deleteOne({ _id: new ObjectId(id) });
+}

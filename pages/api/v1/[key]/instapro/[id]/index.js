@@ -1,8 +1,8 @@
-import { deleteComment, toggleLike } from "@/libs/comments";
+import { deletePost } from "@/libs/instapro";
 import { getUserFromRequest } from "@/libs/users";
 
 export default async function handler(req, res) {
-  const { id } = req.query;
+  const { id, key } = req.query;
 
   const user = await getUserFromRequest(req);
 
@@ -15,7 +15,10 @@ export default async function handler(req, res) {
   }
 
   try {
-    await deleteComment({ id });
+    if (key === "prod") {
+      throw new Error("Удалять посты с prod нельзя");
+    }
+    await deletePost({ id });
 
     return res.status(200).json({ result: "ok" });
   } catch (error) {
