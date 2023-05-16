@@ -19,7 +19,7 @@ function postImage({ file }) {
   const data = new FormData();
   data.append("file", file);
 
-  return fetch(baseHost + "/api/upload", {
+  return fetch(baseHost + "/api/upload/image", {
     method: "POST",
     body: data,
   })
