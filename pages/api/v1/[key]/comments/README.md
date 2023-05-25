@@ -5,12 +5,12 @@
 Для того чтобы использовать API, замените `:personal-key` на свое имя и фамилию, например мой адрес апи для получения комментов выглядит так:
 
 ```
-https://webdev-hw-api.vercel.app/api/v1/gleb-fokin/comments
+https://wedev-api.sky.pro/api/v1/gleb-fokin/comments
 ```
 
 ## Получить список комментариев
 
-адрес: https://webdev-hw-api.vercel.app/api/v1/:personal-key/comments
+адрес: https://wedev-api.sky.pro/api/v1/:personal-key/comments
 
 метод: GET
 
@@ -33,7 +33,7 @@ https://webdev-hw-api.vercel.app/api/v1/gleb-fokin/comments
 
 ## Добавить новый комментарий
 
-адрес: https://webdev-hw-api.vercel.app/api/v1/:personal-key/comments
+адрес: https://wedev-api.sky.pro/api/v1/:personal-key/comments
 
 метод: POST
 

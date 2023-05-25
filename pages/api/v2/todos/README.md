@@ -9,7 +9,7 @@
 
 ## Получить список задач
 
-адрес: https://webdev-hw-api.vercel.app/api/v2/todos
+адрес: https://wedev-api.sky.pro/api/v2/todos
 
 метод: GET
 
@@ -34,7 +34,7 @@
 
 ## Добавить новую задачу в список
 
-адрес: https://webdev-hw-api.vercel.app/api/v2/todos
+адрес: https://wedev-api.sky.pro/api/v2/todos
 
 метод: POST
 
@@ -61,7 +61,7 @@
 
 ## Удалить задачу по id из списка
 
-адрес: https://webdev-hw-api.vercel.app/api/v2/todos/:id
+адрес: https://wedev-api.sky.pro/api/v2/todos/:id
 
 метод: DELETE
 

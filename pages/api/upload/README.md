@@ -4,7 +4,7 @@
 
 Позволяет загрузить картинку до 5 мегабайт в облако.
 
-адрес: https://webdev-hw-api.vercel.app/api/upload/image
+адрес: https://wedev-api.sky.pro/api/upload/image
 
 метод: POST
 

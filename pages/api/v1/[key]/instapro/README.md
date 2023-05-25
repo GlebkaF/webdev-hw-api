@@ -1,11 +1,11 @@
 # Документация API “Instapro” v1
 
-**Base URL:** https://webdev-hw-api.vercel.app/api/v1/:personal-key/instapro
+**Base URL:** https://wedev-api.sky.pro/api/v1/:personal-key/instapro
 
 К base URL нужно «приклеить» адрес конкретного API endpoint’а из списка ниже.
 
 "боевая" версия Instapro, доступна по адресу:
-https://webdev-hw-api.vercel.app/api/v1/prod/instapro
+https://wedev-api.sky.pro/api/v1/prod/instapro
 
 В разработке используйте свой уникальный `:personal-key`, чтобы получить не зависимый от других API. По умолчанию персональный API пустой.
 

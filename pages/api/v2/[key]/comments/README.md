@@ -1,13 +1,13 @@
 # Документация API “Лента комментариев” v2
 
-**Base url:** https://webdev-hw-api.vercel.app/api/v2/:personal-key
+**Base url:** https://wedev-api.sky.pro/api/v2/:personal-key
 
 В адресах этого api испольуется параметр `:personal-key`, чтобы у каждого пользователя был свой собственный список комментариев.
 
 Для того чтобы использовать API, замените `:personal-key` на свое имя и фамилию, например мой адрес апи для получения комментов выглядит так:
 
 ```
-https://webdev-hw-api.vercel.app/api/v2/gleb-fokin/comments
+https://wedev-api.sky.pro/api/v2/gleb-fokin/comments
 ```
 
 ## Api endpoints

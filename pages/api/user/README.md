@@ -4,7 +4,7 @@
 
 ## Получить список пользователей
 
-адрес: https://webdev-hw-api.vercel.app/api/user
+адрес: https://wedev-api.sky.pro/api/user
 
 метод: GET
 
@@ -26,7 +26,7 @@
 
 Создает нового пользователя в системе.
 
-адрес: https://webdev-hw-api.vercel.app/api/user
+адрес: https://wedev-api.sky.pro/api/user
 
 метод: POST
 
@@ -60,7 +60,7 @@
 
 Авторизует пользователя и возвращает Bearer токен авторизации
 
-адрес: https://webdev-hw-api.vercel.app/api/user/login
+адрес: https://wedev-api.sky.pro/api/user/login
 
 метод: POST
 
