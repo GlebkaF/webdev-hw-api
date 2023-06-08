@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   generateEtags: false,
+  skipTrailingSlashRedirect: true,
   async headers() {
     return [
       {
