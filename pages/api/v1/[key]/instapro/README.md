@@ -123,7 +123,23 @@ API ставит лайк на пост от имени авторизованн
 Возвращает код 200 и объект результата:
 
 ```json
-{ "result": "ok" }
+{
+  "post": {
+    "id": "648a1639d2b332a0d9ab1b9e",
+    "imageUrl": "https://storage.yandexcloud.net/skypro-webdev-homework-bucket/1686771204173-0dqicB098io.jpg",
+    "createdAt": "2023-06-14T19:34:17.066Z",
+    "description": "ergergeg",
+    "user": {
+      "id": "6479e2d0182c486becb0868f",
+      "name": "Дмитрий",
+      "login": "dimboss",
+      "imageUrl": "https://storage.yandexcloud.net/skypro-webdev-homework-bucket/1680591910917-%25C3%2590%25C2%25A1%25C3%2590%25C2%25BD%25C3%2590%25C2%25B8%25C3%2590%25C2%25BC%25C3%2590%25C2%25BE%25C3%2590%25C2%25BA%2520%25C3%2591%25C2%258D%25C3%2590%25C2%25BA%25C3%2591%25C2%2580%25C3%2590%25C2%25B0%25C3%2590%25C2%25BD%25C3%2590%25C2%25B0%25202023-04-04%2520%25C3%2590%25C2%25B2%252014.04.40.png"
+    },
+    "likes": [{ "id": "6421860c32e0301869fb3301", "name": "Админ" }],
+    "isLiked": true
+  }
+}
+
 ```
 
 ### Убрать лайк
@@ -141,7 +157,24 @@ API убирает лайк у поста от имени авторизован
 Возвращает код 200 и объект результата:
 
 ```json
-{ "result": "ok" }
+{
+  "post": {
+    "id": "648a1639d2b332a0d9ab1b9e",
+    "imageUrl": "https://storage.yandexcloud.net/skypro-webdev-homework-bucket/1686771204173-0dqicB098io.jpg",
+    "createdAt": "2023-06-14T19:34:17.066Z",
+    "description": "ergergeg",
+    "user": {
+      "id": "6479e2d0182c486becb0868f",
+      "name": "Дмитрий",
+      "login": "dimboss",
+      "imageUrl": "https://storage.yandexcloud.net/skypro-webdev-homework-bucket/1680591910917-%25C3%2590%25C2%25A1%25C3%2590%25C2%25BD%25C3%2590%25C2%25B8%25C3%2590%25C2%25BC%25C3%2590%25C2%25BE%25C3%2590%25C2%25BA%2520%25C3%2591%25C2%258D%25C3%2590%25C2%25BA%25C3%2591%25C2%2580%25C3%2590%25C2%25B0%25C3%2590%25C2%25BD%25C3%2590%25C2%25B0%25202023-04-04%2520%25C3%2590%25C2%25B2%252014.04.40.png"
+    },
+    "likes": [],
+    "isLiked": false
+  }
+}
+
+
 ```
 
 ### Удалить пост
