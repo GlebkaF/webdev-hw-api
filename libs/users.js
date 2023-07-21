@@ -56,11 +56,5 @@ export async function getUserFromRequest(req) {
 
   const user = await getUserByToken({ token });
 
-  if (!user && token) {
-    throw new Error(
-      "authorization заголовок передан, но юзера с переданным токеном не сущетсвует. Возможно вы опечатались в значении заголовка?"
-    );
-  }
-
   return user;
 }
