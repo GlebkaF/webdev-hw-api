@@ -10,6 +10,19 @@ export default function middleware(request) {
     });
   }
 
+  if (request.headers.has("content-type")) {
+    return new NextResponse(
+      JSON.stringify({
+        error:
+          "В заголовке передан content-type, но эта API не умеет работать с этим заголовком, уберите его",
+      }),
+      {
+        status: 400,
+        headers: { "content-type": "application/json" },
+      }
+    );
+  }
+
   // Ошибки студентов с заголовком
   if (request.headers.has("athorization")) {
     return new NextResponse(
