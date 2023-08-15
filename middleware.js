@@ -10,11 +10,12 @@ export default function middleware(request) {
     });
   }
 
-  if (request.headers.has("content-type")) {
+  // fyi: браузер и curl сами подставляют content-type:text/plain
+  if (request.headers.get("content-type") === "application/json") {
     return new NextResponse(
       JSON.stringify({
         error:
-          "В заголовке передан content-type, но эта API не умеет работать с этим заголовком, уберите его",
+          "В заголовке передан content-type: application/json, но эта API не умеет работать с этим заголовком, уберите его",
       }),
       {
         status: 400,
