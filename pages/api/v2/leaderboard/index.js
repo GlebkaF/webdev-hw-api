@@ -7,32 +7,36 @@ let leaders = [
     id: generateId(),
     name: "Великий маг",
     time: 21,
+    achievements: [1, 2],
   },
   {
     id: generateId(),
     name: "Карточный мастер",
     time: 52,
+    achievements: [1],
   },
   {
     id: generateId(),
     name: "Гениальный игрок",
     time: 71,
+    achievements: [],
   },
 ];
 
 export default function handler(req, res) {
   try {
     if (req.method === "POST") {
-      const { name, time } = JSON.parse(req.body);
+      const { name, time, achievements } = JSON.parse(req.body);
 
       // Схема валидации
       const schema = Joi.object({
         name: Joi.string().default("Пользователь"),
         time: Joi.number().required(),
+        achievements: Joi.array().items(Joi.number()),
       });
 
       // Валидация данных
-      const { error, value } = schema.validate({ name, time });
+      const { error, value } = schema.validate({ name, time, achievements });
 
       if (error) {
         return res.status(400).json({ error: error.details[0].message });
@@ -42,6 +46,7 @@ export default function handler(req, res) {
         id: generateId(),
         name: value.name,
         time: value.time,
+        achievements: value.achievements,
       };
 
       leaders.push(leader);
