@@ -2,21 +2,21 @@ import Joi from "joi";
 
 let lastId = 1;
 
-export let leaders = [
+let leaders = [
   {
     id: generateId(),
     name: "Великий маг",
-    time: 1,
+    time: 21,
   },
   {
     id: generateId(),
     name: "Карточный мастер",
-    time: 1,
+    time: 52,
   },
   {
     id: generateId(),
     name: "Гениальный игрок",
-    time: 1,
+    time: 71,
   },
 ];
 
@@ -38,31 +38,27 @@ export default function handler(req, res) {
         return res.status(400).json({ error: error.details[0].message });
       }
 
-      const todo = {
+      const leader = {
         id: generateId(),
         name: value.name,
         time: value.time,
       };
 
-      leaders.push(todo);
-      return res.status(201).json({ leaders: getleaders() });
+      leaders.push(leader);
+      return res.status(201).json({ leaders: getLeaders() });
     } else {
-      res.status(200).json({ leaders: getleaders() });
+      res.status(200).json({ leaders: getLeaders() });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 }
 
-export function setUser(newLeaders) {
-  leaders = newLeaders;
-}
-
-export function getleaders() {
+function getLeaders() {
   console.log([...leaders].sort((a, b) => a - b));
   return [...leaders].sort((a, b) => a - b).slice(0, 10);
 }
 
-export function generateId() {
+function generateId() {
   return lastId++;
 }
