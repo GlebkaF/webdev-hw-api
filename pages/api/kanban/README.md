@@ -38,7 +38,7 @@
 
 ## Добавить задачу в список
 
-адрес: https://wedev-api.sky.pro/api/leaderboard
+адрес: https://wedev-api.sky.pro/api/kanban
 
 метод: POST
 
