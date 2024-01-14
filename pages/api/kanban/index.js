@@ -13,18 +13,25 @@ export default async function handler(req, res) {
     const userId = user._id;
 
     if (req.method === "POST") {
-      const { title, topic, status, date } = JSON.parse(req.body);
+      const { title, topic, status, date, description } = JSON.parse(req.body);
 
       // Схема валидации
       const schema = Joi.object({
         title: Joi.string().default("Новая задача"),
         topic: Joi.string().default("Research"),
         status: Joi.string().default("Без статуса"),
+        description: Joi.string().default(""),
         date: Joi.date().default(new Date()),
       });
 
       // Валидация данных
-      const { error, value } = schema.validate({ date, title, topic, status });
+      const { error, value } = schema.validate({
+        date,
+        title,
+        topic,
+        status,
+        description,
+      });
 
       if (error) {
         return res.status(400).json({ error: error.details[0].message });
@@ -35,6 +42,7 @@ export default async function handler(req, res) {
         title: value.title,
         topic: value.topic,
         date: value.date,
+        description: value.description,
         status: value.status,
       });
 

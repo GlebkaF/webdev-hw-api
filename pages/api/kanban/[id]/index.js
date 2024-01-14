@@ -18,7 +18,7 @@ export default async function handler(req, res) {
     const userId = user._id;
 
     if (req.method === "PUT") {
-      const { title, topic, status, date } = JSON.parse(req.body);
+      const { title, topic, status, date, description } = JSON.parse(req.body);
       const { id } = req.query;
 
       // Схема валидации
@@ -27,6 +27,7 @@ export default async function handler(req, res) {
         topic: Joi.string().default("Research"),
         status: Joi.string().default("Без статуса"),
         date: Joi.date().default(new Date()),
+        description: Joi.string().default(""),
         id,
       });
 
@@ -35,6 +36,7 @@ export default async function handler(req, res) {
         title,
         topic,
         status,
+        description,
         id,
         date,
       });
@@ -48,6 +50,7 @@ export default async function handler(req, res) {
         title: value.title,
         topic: value.topic,
         date: value.date,
+        description: value.description,
         status: value.status,
         id: value.id,
       });
