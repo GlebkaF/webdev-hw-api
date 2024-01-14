@@ -6,11 +6,18 @@ export async function getKanbanTasks({ userId }) {
   return await db.collection("kanbanTasks").find({ userId }).toArray();
 }
 
-export async function createKanbanTask({ userId, title, topic, date, status }) {
+export async function createKanbanTask({
+  userId,
+  title,
+  topic,
+  date,
+  status,
+  text,
+}) {
   const { db } = await connectToDatabase();
   return await db
     .collection("kanbanTasks")
-    .insertOne({ userId, title, topic, date, status });
+    .insertOne({ userId, title, topic, date, status, text });
 }
 
 export async function updateKanbanTask({
@@ -19,6 +26,7 @@ export async function updateKanbanTask({
   topic,
   date,
   status,
+  text,
   id,
 }) {
   const { db } = await connectToDatabase();
@@ -26,7 +34,7 @@ export async function updateKanbanTask({
     .collection("kanbanTasks")
     .updateOne(
       { _id: new ObjectId(id), userId },
-      { $set: { userId, title, topic, date, status } }
+      { $set: { userId, title, topic, date, status, text } }
     );
 }
 
