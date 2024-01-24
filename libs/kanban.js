@@ -12,12 +12,12 @@ export async function createKanbanTask({
   topic,
   date,
   status,
-  text,
+  description,
 }) {
   const { db } = await connectToDatabase();
   return await db
     .collection("kanbanTasks")
-    .insertOne({ userId, title, topic, date, status, text });
+    .insertOne({ userId, title, topic, date, status, description });
 }
 
 export async function updateKanbanTask({
@@ -26,7 +26,7 @@ export async function updateKanbanTask({
   topic,
   date,
   status,
-  text,
+  description,
   id,
 }) {
   const { db } = await connectToDatabase();
@@ -34,7 +34,7 @@ export async function updateKanbanTask({
     .collection("kanbanTasks")
     .updateOne(
       { _id: new ObjectId(id), userId },
-      { $set: { userId, title, topic, date, status, text } }
+      { $set: { userId, title, topic, date, status, description } }
     );
 }
 
