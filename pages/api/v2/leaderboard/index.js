@@ -2,6 +2,10 @@ import Joi from "joi";
 
 let lastId = 1;
 
+function generateId() {
+  return lastId++;
+}
+
 let leaders = [
   {
     id: generateId(),
@@ -60,10 +64,5 @@ export default function handler(req, res) {
 }
 
 function getLeaders() {
-  console.log([...leaders].sort((a, b) => a - b));
-  return [...leaders].sort((a, b) => a - b).slice(0, 10);
-}
-
-function generateId() {
-  return lastId++;
+  return leaders;
 }
