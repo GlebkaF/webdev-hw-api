@@ -50,7 +50,7 @@ export default function handler(req, res) {
         id: generateId(),
         name: value.name,
         time: value.time,
-        achievements: value.achievements,
+        achievements: value.achievements || [],
       };
 
       leaders.push(leader);
