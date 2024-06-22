@@ -6,6 +6,13 @@ export async function getKanbanTasks({ userId }) {
   return await db.collection("kanbanTasks").find({ userId }).toArray();
 }
 
+export async function getKanbanTaskById({ id, userId }) {
+  const { db } = await connectToDatabase();
+  return await db
+    .collection("kanbanTasks")
+    .findOne({ _id: new ObjectId(id), userId });
+}
+
 export async function createKanbanTask({
   userId,
   title,

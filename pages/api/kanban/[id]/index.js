@@ -1,6 +1,7 @@
 import {
   createKanbanTask,
   deleteKanbanTask,
+  getKanbanTaskById,
   getKanbanTasks,
   updateKanbanTask,
 } from "@/libs/kanban";
@@ -63,7 +64,15 @@ export default async function handler(req, res) {
 
       return res.status(201).json({ tasks: await getKanbanTasks({ userId }) });
     } else {
-      res.status(200).json({ tasks: await getKanbanTasks({ userId }) });
+      const { id } = req.query;
+
+      const task = await getKanbanTaskById({ id, userId });
+
+      if (!task) {
+        return res.status(404).json({ error: "Задача не найдена" });
+      }
+
+      return res.status(200).json({ task });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
