@@ -25,7 +25,7 @@ export default async function handler(req, res) {
       const schema = Joi.object({
         name: Joi.string().required(),
         translation: Joi.string().required(),
-        status: Joi.string().default("Без статуса"),
+        status: Joi.string().default("new"),
         deadline: Joi.alternatives().try(Joi.string().allow(null), Joi.date()),
         id: Joi.string().required(),
       });
