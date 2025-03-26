@@ -10,7 +10,31 @@ export default async function handler(req, res) {
     const userId = user._id;
 
     if (req.method === "GET") {
-      return res.status(200).json(await getTransactions({ userId }));
+      const { sortBy: sortQuery, filterBy: filterQuery } = req.query;
+      const schema = Joi.object({
+        sortQuery: Joi.string().valid("date", "sum").optional(),
+        filterQuery: Joi.string()
+          .pattern(
+            /^(food|transport|housing|joy|education|others)(,(food|transport|housing|joy|education|others))*$/
+          )
+          .optional(),
+      });
+      const { value, error } = schema.validate({ sortQuery, filterQuery });
+
+      if (error)
+        return res
+          .status(400)
+          .json({ message: "Неверно введены опции фильтрации/сортировки" });
+
+      return res.status(200).json(
+        await getTransactions({
+          userId,
+          querys: {
+            filterQuery: value.filterQuery?.split(","),
+            sortQuery: value.sortQuery,
+          },
+        })
+      );
     }
 
     const schema = Joi.object({
@@ -29,9 +53,9 @@ export default async function handler(req, res) {
         'Для {#label} Допустимы только значения "food", "transport", "housing", "joy", "education", "others" ',
     });
 
-    const data = JSON.parse(req.body);
-
     if (req.method === "POST") {
+      const data = JSON.parse(req.body);
+
       const { value, error } = schema.validate(data);
 
       if (error)

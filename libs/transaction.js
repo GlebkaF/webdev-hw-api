@@ -1,9 +1,31 @@
 import { ObjectId } from "mongodb";
 import { connectToDatabase } from "./mongodb";
 
-export async function getTransactions({ userId }) {
+export async function getTransactions({ userId, querys }) {
   const { db } = await connectToDatabase();
-  return await db.collection("transactions").find({ userId }).toArray();
+  const pipeline = [
+    {
+      $match: {
+        userId,
+      },
+    },
+  ];
+  if (querys?.filterQuery)
+    pipeline.push({
+      $match: {
+        category: { $in: querys.filterQuery },
+      },
+    });
+
+  if (querys?.sortQuery) {
+    pipeline.push({
+      $sort: { [querys.sortQuery]: 1 },
+    });
+  }
+
+  console.log(pipeline);
+
+  return await db.collection("transactions").aggregate(pipeline).toArray();
 }
 
 export async function addTransaction({
