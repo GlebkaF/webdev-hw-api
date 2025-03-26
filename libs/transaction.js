@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { connectToDatabase } from "./mongodb";
 
 export async function getTransactions({ userId }) {
@@ -23,4 +24,39 @@ export async function addTransaction({
   };
 
   return await db.collection("transactions").insertOne(transaction);
+}
+
+export async function updateTransaction({
+  description,
+  category,
+  date,
+  sum,
+  userId,
+  id,
+}) {
+  const { db } = await connectToDatabase();
+
+  return await db
+    .collection("transactions")
+    .updateOne(
+      { _id: new ObjectId(id), userId },
+      { $set: { category, date, description, sum } }
+    );
+}
+
+export async function deleteTransaction({ id, userId }) {
+  const { db } = await connectToDatabase();
+
+  const objId = new ObjectId(id);
+
+  const isExist = !!(await db
+    .collection("transactions")
+    .findOne({ userId, _id: objId }));
+
+  if (isExist)
+    return await db
+      .collection("transactions")
+      .deleteOne({ _id: objId, userId });
+
+  return false;
 }

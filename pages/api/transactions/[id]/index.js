@@ -1,4 +1,11 @@
-import { addTransaction, getTransactions } from "@/libs/transaction";
+/*
+
+        */
+import {
+  deleteTransaction,
+  getTransactions,
+  updateTransaction,
+} from "@/libs/transaction";
 import { getUserFromRequest } from "@/libs/users";
 import Joi from "joi";
 
@@ -8,10 +15,6 @@ export default async function handler(req, res) {
     if (!user) return res.status(401).json({ error: "Пользователь не найден" });
 
     const userId = user._id;
-
-    if (req.method === "GET") {
-      return res.status(200).json(await getTransactions({ userId }));
-    }
 
     const schema = Joi.object({
       description: Joi.string().required(),
@@ -24,20 +27,35 @@ export default async function handler(req, res) {
       "any.required": `Поле {#label} обязательно для заполнения`,
       "string.empty": `Поле {#label} не может быть пустым`,
       "date.base": `Поле {#label} должно быть датой`,
-      "number.base": "{#label} должно быть числом",
+      "number.base": "{#label} Должно быть числом",
       "any.only":
-        'Для {#label} Допустимы только значения "food", "transport", "housing", "joy", "education", "others" ',
+        "Для {#label} Допустимы только значения food, transport, housing, joy, education, others ",
     });
 
-    const data = JSON.parse(req.body);
+    //const data = JSON.parse(req.body);
 
-    if (req.method === "POST") {
+    if (req.method === "PATCH") {
       const { value, error } = schema.validate(data);
+      const { id } = req.query;
 
       if (error)
         return res.status(400).json({ error: error.details[0].message });
 
-      await addTransaction({ userId, ...value });
+      await updateTransaction({ userId, id, ...value });
+
+      return res
+        .status(201)
+        .json({ transactions: await getTransactions({ userId }) });
+    }
+    if (req.method === "DELETE") {
+      const { id } = req.query;
+
+      const resp = await deleteTransaction({ userId, id });
+
+      if (!resp)
+        return res
+          .status(400)
+          .json({ message: "Данная транзакция уже удалена" });
 
       return res
         .status(201)
