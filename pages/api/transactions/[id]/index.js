@@ -17,7 +17,7 @@ export default async function handler(req, res) {
     const userId = user._id;
 
     const schema = Joi.object({
-      description: Joi.string().required(),
+      description: Joi.string().min(4).required(),
       sum: Joi.number().integer().positive().strict().required(),
       category: Joi.string()
         .valid("food", "transport", "housing", "joy", "education", "others")

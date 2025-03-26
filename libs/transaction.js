@@ -23,9 +23,28 @@ export async function getTransactions({ userId, querys }) {
     });
   }
 
-  console.log(pipeline);
-
   return await db.collection("transactions").aggregate(pipeline).toArray();
+}
+
+export async function getTransactionsByPeriod({ userId, date }) {
+  const { db } = await connectToDatabase();
+  const startDate = new Date(date);
+  const endDate = new Date(
+    startDate.getFullYear(),
+    startDate.getMonth() + 1,
+    1
+  );
+
+  return await db
+    .collection("transactions")
+    .find({
+      userId,
+      date: {
+        $gte: startDate,
+        $lte: endDate,
+      },
+    })
+    .toArray();
 }
 
 export async function addTransaction({
