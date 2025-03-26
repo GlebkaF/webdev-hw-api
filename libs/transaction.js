@@ -28,11 +28,16 @@ export async function getTransactions({ userId, querys }) {
 
 export async function getTransactionsByPeriod({ userId, date }) {
   const { db } = await connectToDatabase();
-  const startDate = new Date(date);
+  const newDate = new Date(date);
+  const startDate = new Date(
+    newDate.getFullYear(),
+    newDate.getMonth(),
+    newDate.getDate() + 1
+  );
   const endDate = new Date(
     startDate.getFullYear(),
     startDate.getMonth() + 1,
-    1
+    startDate.getDate()
   );
 
   return await db
@@ -56,11 +61,17 @@ export async function addTransaction({
 }) {
   const { db } = await connectToDatabase();
 
+  const newDate = new Date(date);
+
   const transaction = {
     userId,
     description,
     category,
-    date,
+    date: new Date(
+      newDate.getFullYear(),
+      newDate.getMonth(),
+      newDate.getDate() + 1
+    ),
     sum,
   };
 
@@ -77,12 +88,31 @@ export async function updateTransaction({
 }) {
   const { db } = await connectToDatabase();
 
-  return await db
+  const objId = new ObjectId(id);
+
+  const isExist = !!(await db
     .collection("transactions")
-    .updateOne(
-      { _id: new ObjectId(id), userId },
-      { $set: { category, date, description, sum } }
-    );
+    .findOne({ userId, _id: objId }));
+
+  if (!isExist) return false;
+
+  const newDate = new Date(date);
+
+  return await db.collection("transactions").updateOne(
+    { _id: objId, userId },
+    {
+      $set: {
+        category,
+        date: new Date(
+          newDate.getFullYear(),
+          newDate.getMonth(),
+          newDate.getDate() + 1
+        ),
+        description,
+        sum,
+      },
+    }
+  );
 }
 
 export async function deleteTransaction({ id, userId }) {
@@ -94,10 +124,7 @@ export async function deleteTransaction({ id, userId }) {
     .collection("transactions")
     .findOne({ userId, _id: objId }));
 
-  if (isExist)
-    return await db
-      .collection("transactions")
-      .deleteOne({ _id: objId, userId });
+  if (!isExist) return false;
 
-  return false;
+  return await db.collection("transactions").deleteOne({ _id: objId, userId });
 }

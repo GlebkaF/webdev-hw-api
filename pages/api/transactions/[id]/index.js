@@ -32,16 +32,20 @@ export default async function handler(req, res) {
         "Для {#label} Допустимы только значения food, transport, housing, joy, education, others ",
     });
 
-    //const data = JSON.parse(req.body);
-
     if (req.method === "PATCH") {
+      const data = JSON.parse(req.body);
       const { value, error } = schema.validate(data);
       const { id } = req.query;
 
       if (error)
         return res.status(400).json({ error: error.details[0].message });
 
-      await updateTransaction({ userId, id, ...value });
+      const isExist = await updateTransaction({ userId, id, ...value });
+
+      if (!isExist)
+        return res
+          .status(400)
+          .json({ message: "Данной транзакции не существует, проверьте id" });
 
       return res
         .status(201)

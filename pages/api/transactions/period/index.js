@@ -22,7 +22,7 @@ export default async function handler(req, res) {
       return res.status(200).json(
         await getTransactionsByPeriod({
           userId,
-          date: value,
+          date: period,
         })
       );
     }
