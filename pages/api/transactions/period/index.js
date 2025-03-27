@@ -10,19 +10,23 @@ export default async function handler(req, res) {
     const userId = user._id;
 
     if (req.method === "GET") {
-      const { period } = JSON.parse(req.body);
+      const { start, end } = JSON.parse(req.body);
 
       const schema = Joi.date().required();
 
-      const { value, error } = schema.validate(period);
+      const { error: startError } = schema.validate(start);
+      const { error: endError } = schema.validate(end);
 
-      if (error)
-        return res.status(401).json({ error: error.details[0].message });
+      if (startError)
+        return res.status(401).json({ error: "Неверно указан start или end" });
+      if (endError)
+        return res.status(401).json({ error: "Неверно указан start или end" });
 
       return res.status(200).json(
         await getTransactionsByPeriod({
           userId,
-          date: period,
+          start,
+          end,
         })
       );
     }

@@ -19,25 +19,26 @@ export async function getTransactions({ userId, querys }) {
 
   if (querys?.sortQuery) {
     pipeline.push({
-      $sort: { [querys.sortQuery]: 1 },
+      $sort: { [querys.sortQuery]: -1 },
     });
   }
 
   return await db.collection("transactions").aggregate(pipeline).toArray();
 }
 
-export async function getTransactionsByPeriod({ userId, date }) {
+export async function getTransactionsByPeriod({ userId, start, end }) {
   const { db } = await connectToDatabase();
-  const newDate = new Date(date);
-  const startDate = new Date(
+  const newDate = new Date(start);
+  const startPeriod = new Date(
     newDate.getFullYear(),
     newDate.getMonth(),
     newDate.getDate() + 1
   );
-  const endDate = new Date(
-    startDate.getFullYear(),
-    startDate.getMonth() + 1,
-    startDate.getDate()
+  const endDate = new Date(end);
+  const endPeriod = new Date(
+    endDate.getFullYear(),
+    endDate.getMonth() + 1,
+    endDate.getDate()
   );
 
   return await db
@@ -45,8 +46,8 @@ export async function getTransactionsByPeriod({ userId, date }) {
     .find({
       userId,
       date: {
-        $gte: startDate,
-        $lte: endDate,
+        $gte: startPeriod,
+        $lte: endPeriod,
       },
     })
     .toArray();
