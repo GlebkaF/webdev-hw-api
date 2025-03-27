@@ -56,15 +56,11 @@
 
 Пример запроса на фильтрацию по категориям "Еда" и "Транспорт", сортировке по убыванию по дате:
 
-```http
 https://wedev-api.sky.pro/api/transactions?sortBy=date&filterBy=food,transport
-```
 
 Пример запроса на фильтрацию по категории "Образование" без сортировки
 
-```http
 https://wedev-api.sky.pro/api/transactions?filterBy=education
-```
 
 При верном вводе апи вернет 200 статус и соответствующий критериям список транзакций.
 
@@ -72,7 +68,7 @@ https://wedev-api.sky.pro/api/transactions?filterBy=education
 
 ## Добавить транзацию
 
-https://wedev-api.sky.pro/api/transactions
+адрес: https://wedev-api.sky.pro/api/transactions
 
 метод: POST
 
@@ -120,9 +116,7 @@ https://wedev-api.sky.pro/api/transactions
 
 Пример запроса:
 
-```http
 http://wedev-api.sky.pro/api/transactions/67e45adf8d573f845a6083ed
-```
 
 При успешном удалении возвращает статус код 201, и обновленный список всех транзакций.
 
@@ -149,9 +143,7 @@ http://wedev-api.sky.pro/api/transactions/67e45adf8d573f845a6083ed
 
 Пример запроса:
 
-```http
 http://wedev-api.sky.pro/api/transactions/67e45adf8d573f845a6083ed
-```
 
 При успешном обновлении возвращает статус код 201, и обновленный список всех транзакций.
 
