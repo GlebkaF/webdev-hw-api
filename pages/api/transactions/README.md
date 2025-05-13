@@ -153,7 +153,7 @@ http://wedev-api.sky.pro/api/transactions/67e45adf8d573f845a6083ed
 
 адрес http://wedev-api.sky.pro/api/transactions/period
 
-метод: GET
+метод: POST
 
 В тело запроса нужно передать json с началом и концом периода, за который мы хотим получить транзакции. Пример:
 
