@@ -28,17 +28,21 @@ export async function getTransactions({ userId, querys }) {
 
 export async function getTransactionsByPeriod({ userId, start, end }) {
   const { db } = await connectToDatabase();
-  const newDate = new Date(start);
+  const startDate = new Date(start);
   const startPeriod = new Date(
-    newDate.getFullYear(),
-    newDate.getMonth(),
-    newDate.getDate() + 1
+    Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate())
   );
   const endDate = new Date(end);
   const endPeriod = new Date(
-    endDate.getFullYear(),
-    endDate.getMonth() + 1,
-    endDate.getDate()
+    Date.UTC(
+      endDate.getFullYear(),
+      endDate.getMonth(),
+      endDate.getDate(),
+      23,
+      59,
+      59,
+      999
+    )
   );
 
   return await db
@@ -69,9 +73,7 @@ export async function addTransaction({
     description,
     category,
     date: new Date(
-      newDate.getFullYear(),
-      newDate.getMonth(),
-      newDate.getDate() + 1
+      Date.UTC(newDate.getFullYear(), newDate.getMonth(), newDate.getDate())
     ),
     sum,
   };
@@ -105,9 +107,7 @@ export async function updateTransaction({
       $set: {
         category,
         date: new Date(
-          newDate.getFullYear(),
-          newDate.getMonth(),
-          newDate.getDate() + 1
+          Date.UTC(newDate.getFullYear(), newDate.getMonth(), newDate.getDate())
         ),
         description,
         sum,

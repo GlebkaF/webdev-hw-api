@@ -9,7 +9,7 @@ export default async function handler(req, res) {
 
     const userId = user._id;
 
-    if (req.method === "GET") {
+    if (req.method === "POST") {
       const { start, end } = JSON.parse(req.body);
 
       const schema = Joi.date().required();
