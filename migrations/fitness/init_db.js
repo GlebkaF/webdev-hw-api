@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 
-const uri = "mongodb+srv://olgashiman00:dYSf3VKiGEQaXjsr@skyqaapi.kzerkfp.mongodb.net/SkyFitnessApi?retryWrites=true&w=majority&appName=skyqaapi"; // замени на своё подключение
+const MONGODB_URI = process.env.MONGODB_URI;
+
+// const uri = "mongodb+srv://olgashiman00:dYSf3VKiGEQaXjsr@skyqaapi.kzerkfp.mongodb.net/SkyFitnessApi?retryWrites=true&w=majority&appName=skyqaapi"; // замени на своё подключение
+const uri = MONGODB_URI; // замени на своё подключение
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const userSchema = new mongoose.Schema({
@@ -431,7 +434,7 @@ const workoutData = {
   }
 }
 
-async function seedDatabase() {
+export async function seedDatabase() {
   try {
     await User.createCollection();
     await Progress.createCollection();
@@ -454,4 +457,4 @@ async function seedDatabase() {
   }
 }
 
-seedDatabase();
+// seedDatabase();
