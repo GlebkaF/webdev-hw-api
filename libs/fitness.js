@@ -48,7 +48,7 @@ export async function registerUser({ email, password }) {
     throw new Error("Введите корректный Email");
   }
 
-  const existingUser = await db.collection("users").findOne({ email });
+  const existingUser = await db.collection("fitness_users").findOne({ email });
   if (existingUser) {
     throw new Error("Пользователь с таким именем уже существует");
   }
@@ -60,7 +60,7 @@ export async function registerUser({ email, password }) {
 
   const hashedPassword = await bcrypt.hash(password, 10);
   const newUser = await db
-    .collection("users")
+    .collection("fitness_users")
     .insertOne({ email, password: hashedPassword });
 
   const jwt_token = signToken({ id: newUser._id });
@@ -70,7 +70,7 @@ export async function registerUser({ email, password }) {
 export async function loginUser({ email, password }) {
   const { db } = await connectToDatabase();
 
-  const user = await db.collection("users").findOne({ email: email });
+  const user = await db.collection("fitness_users").findOne({ email: email });
   if (!user) throw new Error("Пользователь с таким логином не найден");
 
   const isMatch = await bcrypt.compare(password, user.password);
@@ -86,7 +86,7 @@ export async function getUserByToken(token) {
 
   const { db } = await connectToDatabase();
 
-  const user = await db.collection("users").findOne(
+  const user = await db.collection("fitness_users").findOne(
     { _id: new ObjectId(decoded.id) },
     { projection: { password: 0, _id: 0 } } // 0 — исключить поле password
   );
@@ -101,7 +101,7 @@ export async function getUserByToken(token) {
 export async function getAllCourses() {
   const { db } = await connectToDatabase();
 
-  const courses = await db.collection("courses").find({}).toArray();
+  const courses = await db.collection("fitness_courses").find({}).toArray();
 
   return courses;
 }
@@ -110,7 +110,7 @@ export async function getCourseById(courseId) {
   const { db } = await connectToDatabase();
 
   const course = await db
-    .collection("courses")
+    .collection("fitness_courses")
     .findOne({ _id: courseId });
 
   if (!course) throw new Error("Курс с данным ID не найден");
@@ -123,19 +123,19 @@ export async function addCourseToUser(userDecodedId, courseId) {
 
   // Проверяем курс существует ли
   const course = await db
-    .collection("courses")
+    .collection("fitness_courses")
     .findOne({ _id: courseId });
   if (!course) throw new Error("Курс с данным ID не найден");
 
   // Добавляем курс в массив courses пользователя, если нет
   const userId = new ObjectId(userDecodedId);
-  const user = await db.collection("users").findOne({ _id: userId });
+  const user = await db.collection("fitness_users").findOne({ _id: userId });
   if (!user) throw new Error("Пользователь не найден")
 
   const hasCourse = user.courses?.some((c) => c.equals(course._id));
   if (!hasCourse) {
     await db
-      .collection("users")
+      .collection("fitness_users")
       .updateOne({ _id: userId }, { $push: { selectedCourses: course._id } });
   }
 }
@@ -144,11 +144,11 @@ export async function deleteCourseFromUser(userDecodedId, courseId) {
   const { db } = await connectToDatabase();
 
   const userId = new ObjectId(userDecodedId);
-  const user = await db.collection("users").findOne({ _id: userId });
+  const user = await db.collection("fitness_users").findOne({ _id: userId });
   if (!user) throw new Error("Пользователь не найден")
 
   await db
-    .collection("users")
+    .collection("fitness_users")
     .updateOne(
       { _id: userId },
       { $pull: { selectedCourses: courseId } }
@@ -162,7 +162,7 @@ export async function getCourseWorkouts(courseId) {
   const workoutIds = course.workouts || [];
 
   const workouts = await db
-    .collection("workouts")
+    .collection("fitness_workouts")
     .find({ _id: { $in: workoutIds } })
     .toArray();
 
@@ -173,7 +173,7 @@ export async function getWorkoutById(workoutId) {
   const { db } = await connectToDatabase();
 
   const workout = await db
-    .collection("workouts")
+    .collection("fitness_workouts")
     .findOne({ _id:workoutId });
 
   if (!workout) throw new Error("Тренировка с данным ID не найдена");
@@ -209,12 +209,12 @@ export async function getWorkoutProgress(userDecodedId, workoutId) {
   const userId = new ObjectId(userDecodedId);
 
   const workout = await db
-    .collection("workouts")
+    .collection("fitness_workouts")
     .findOne({ _id: workoutId });
 
   if (!workout) throw new Error("Тренировка с данным ID не найдена");
 
-  const user = await db.collection('users').findOne(
+  const user = await db.collection("fitness_users").findOne(
     { _id: new ObjectId(userId) },
     { projection: { workoutProgress: 1 } }
   )
@@ -234,7 +234,7 @@ export async function markWorkoutProgress(userDecodedId, workoutId, progressData
   const userId = new ObjectId(userDecodedId);
 
   const workout = await db
-    .collection("workouts")
+    .collection("fitness_workouts")
     .findOne({ _id: workoutId });
 
   if (!workout) throw new Error("Тренировка с данным ID не найдена");
@@ -242,7 +242,7 @@ export async function markWorkoutProgress(userDecodedId, workoutId, progressData
   if (!validateProgressData(progressData, workout)) throw new Error("Прогресс по тренировкам не валидный!")
 
 
-  await db.collection('users').updateOne(
+  await db.collection("fitness_users").updateOne(
     { _id: new ObjectId(userId) },
     {
       $push: {

@@ -1,10 +1,15 @@
+require('dotenv').config();
+
 const mongoose = require("mongoose");
 
 const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_DB = process.env.MONGODB_DB ?? "webdev-hw-api";
 
-// const uri = "mongodb+srv://olgashiman00:dYSf3VKiGEQaXjsr@skyqaapi.kzerkfp.mongodb.net/SkyFitnessApi?retryWrites=true&w=majority&appName=skyqaapi"; // замени на своё подключение
-const uri = MONGODB_URI; // замени на своё подключение
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(MONGODB_URI, {
+  dbName: MONGODB_DB,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -26,14 +31,24 @@ const userSchema = new mongoose.Schema({
   selectedCourses: [
     {
       type: String,
-      ref: "courses", // можно populate()
+      ref: "fitness_courses", // можно populate()
     },
   ],
+  workoutProgress: [
+    {
+      workoutId: { type: String, ref: "fitness_workout" },
+      progressData: [
+        { 
+          type: Number
+        }
+      ]
+    }
+  ]
 }, {
   timestamps: true, // createdAt и updatedAt
 });
 
-const User = mongoose.model("users", userSchema);
+const User = mongoose.model("fitness_users", userSchema);
 
 const courseSchema = new mongoose.Schema({
   _id: String,
@@ -43,10 +58,10 @@ const courseSchema = new mongoose.Schema({
   nameEN: String,
   nameRU: String,
   order: Number,
-  workouts: [{ type: String, ref: "workouts" }],
+  workouts: [{ type: String, ref: "fitness_workouts" }],
 });
 
-const Course = mongoose.model("courses", courseSchema);
+const Course = mongoose.model("fitness_courses", courseSchema);
 
 const workoutSchema = new mongoose.Schema({
   _id: String,
@@ -60,34 +75,7 @@ const workoutSchema = new mongoose.Schema({
   ],
 });
 
-const Workout = mongoose.model("workouts", workoutSchema);
-
-const progressSchema = new mongoose.Schema({
-  userId: {
-    type: String,
-    ref: "users",
-    required: true,
-  },
-  workoutId: {
-    type: String,
-    ref: "workouts",
-    required: true,
-  },
-  date: {
-    type: Date,
-    required: true,
-    default: Date.now,
-  },
-  exercisesCompleted: [
-    {
-      type: Number,
-      min: 0,
-      required: true,
-    },
-  ],
-});
-
-const Progress = mongoose.model("progress", progressSchema);
+const Workout = mongoose.model("fitness_workouts", workoutSchema);
 
 const coursesData = {
   "6i67sm": {
@@ -437,9 +425,7 @@ const workoutData = {
 export async function seedDatabase() {
   try {
     await User.createCollection();
-    await Progress.createCollection();
     // await User.deleteMany({}); // add only if needed
-    // await Progress.deleteMany({});
     // clear old data if any
     await Course.deleteMany({});
     await Workout.deleteMany({});
