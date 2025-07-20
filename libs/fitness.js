@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 
-// USER
+// JWT token
 
 export function signToken(payload) {
   return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "7d" });
@@ -17,13 +17,13 @@ export function verifyToken(token) {
   }
 }
 
-// Email validation
+// User fields validators
+
 function validateEmail(email) {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return re.test(email);
 }
 
-// Password validation
 function validatePassword(password) {
   if (password.length < 6) {
     return "Пароль должен содержать не менее 6 симоволов";
@@ -121,13 +121,11 @@ export async function getCourseById(courseId) {
 export async function addCourseToUser(userDecodedId, courseId) {
   const { db } = await connectToDatabase();
 
-  // Проверяем курс существует ли
   const course = await db
     .collection("fitness_courses")
     .findOne({ _id: courseId });
   if (!course) throw new Error("Курс с данным ID не найден");
 
-  // Добавляем курс в массив courses пользователя, если нет
   const userId = new ObjectId(userDecodedId);
   const user = await db.collection("fitness_users").findOne({ _id: userId });
   if (!user) throw new Error("Пользователь не найден")
@@ -155,6 +153,8 @@ export async function deleteCourseFromUser(userDecodedId, courseId) {
     );
 }
 
+// WORKOUTS
+
 export async function getCourseWorkouts(courseId) {
   const { db } = await connectToDatabase();
 
@@ -181,6 +181,8 @@ export async function getWorkoutById(workoutId) {
   return workout;
 }
 
+// PROGRESS 
+
 function validateProgressData(progressData, workout) {
   if (
     !Array.isArray(progressData) ||
@@ -201,7 +203,6 @@ function validateProgressData(progressData, workout) {
 
   return true
 }
-
 
 export async function getWorkoutProgress(userDecodedId, workoutId) {
   const { db } = await connectToDatabase();
@@ -224,7 +225,7 @@ export async function getWorkoutProgress(userDecodedId, workoutId) {
   }
 
   return workoutId
-    ? user.workoutProgress.filter(p => p.workoutId === workoutId)
+    ? user.workoutProgress?.filter(p => p.workoutId === workoutId) ?? []
     : []
 }
 
@@ -240,7 +241,6 @@ export async function markWorkoutProgress(userDecodedId, workoutId, progressData
   if (!workout) throw new Error("Тренировка с данным ID не найдена");
 
   if (!validateProgressData(progressData, workout)) throw new Error("Прогресс по тренировкам не валидный!")
-
 
   await db.collection("fitness_users").updateOne(
     { _id: new ObjectId(userId) },

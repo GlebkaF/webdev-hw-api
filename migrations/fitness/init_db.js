@@ -1,15 +1,12 @@
-require('dotenv').config();
+// Инициализация БД: node migrations/fitness/init_db.js
 
-const mongoose = require("mongoose");
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+
+dotenv.config();
 
 const MONGODB_URI = process.env.MONGODB_URI;
 const MONGODB_DB = process.env.MONGODB_DB ?? "webdev-hw-api";
-
-mongoose.connect(MONGODB_URI, {
-  dbName: MONGODB_DB,
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -424,6 +421,12 @@ const workoutData = {
 
 export async function seedDatabase() {
   try {
+    await mongoose.connect(MONGODB_URI, {
+      dbName: MONGODB_DB,
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
     await User.createCollection();
     // await User.deleteMany({}); // add only if needed
     // clear old data if any
@@ -442,5 +445,3 @@ export async function seedDatabase() {
     mongoose.connection.close();
   }
 }
-
-// seedDatabase();
