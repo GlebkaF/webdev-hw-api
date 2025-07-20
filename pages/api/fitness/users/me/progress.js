@@ -30,12 +30,12 @@ async function markWorkoutProgressHandler(userDecodedId, req, res) {
 }
 
 async function getWorkoutProgressHandler(userDecodedId,req, res) {
-  const { workoutId } = JSON.parse(req.body);
+  const workoutId = req.query.id;
   if (!workoutId) return res.status(400).json({ message: 'ID тренировки должен быть указан' });
 
   try {
     const progress = await getWorkoutProgress(userDecodedId, workoutId);
-    res.status(200).json({progress});
+    res.status(200).json(progress);
   } catch (e) {
     res.status(500).json({ message: e.message });
   }

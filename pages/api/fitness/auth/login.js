@@ -6,8 +6,8 @@ export default async function handler(req, res) {
   const { email, password } = JSON.parse(req.body);
 
   try {
-    const jwt_token = await loginUser({ email, password });
-    res.status(200).json({ jwt_token });
+    const token = await loginUser({ email, password });
+    res.status(200).json({ token });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

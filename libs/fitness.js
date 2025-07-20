@@ -210,7 +210,7 @@ export async function getWorkoutProgress(userDecodedId, workoutId) {
 
   const workout = await db
     .collection("workouts")
-    .findOne({ _id: new workoutId });
+    .findOne({ _id: workoutId });
 
   if (!workout) throw new Error("Тренировка с данным ID не найдена");
 
