@@ -144,7 +144,7 @@ REST API для фитнес-приложения.
 
 ---
 
-### `GET /api/fitness/courses/[id]`
+### `GET /api/fitness/courses/[courseId]`
 
 Получить один курс по ID.
 
@@ -158,13 +158,19 @@ REST API для фитнес-приложения.
   "description": "...",
   "directions": [],
   "fitting": [],
+  "difficulty": "сложный",
+  "durationInDays": 20,
+  "dailyDurationInMinutes": {
+    "from": 20,
+    "to": 40
+  },
   "workouts": ["17oz5f", "x8abc2"]
 }
 ```
 
 ---
 
-### `GET /api/fitness/courses/[id]/workouts` *
+### `GET /api/fitness/courses/[courseId]/workouts` *
 
 Получить список тренировок курса.
 
@@ -191,7 +197,7 @@ REST API для фитнес-приложения.
 
 ```json
 {
-  "courseId": "id",
+  "courseId": "ypox9r",
 }
 ```
 
@@ -206,7 +212,7 @@ REST API для фитнес-приложения.
 
 ---
 
-### `DELETE /api/fitness/users/me/courses/[id]` *
+### `DELETE /api/fitness/users/me/courses/[courseId]` *
 
 Удалить курс у пользователя.
 
@@ -221,9 +227,23 @@ REST API для фитнес-приложения.
 
 ---
 
+### `PATCH /api/fitness/courses/[courseId]/reset` *
+
+Удалить весь прогресс по курсу.
+
+#### ✅ Response
+
+```json
+{
+  "message": "Прогресс курса удалён!"
+}
+```
+
+---
+
 ## 🏋️ Workouts
 
-### `GET /api/fitness/workouts/[id]` *
+### `GET /api/fitness/workouts/[workoutId]` *
 
 Получить данные по тренировке.
 
@@ -246,9 +266,64 @@ REST API для фитнес-приложения.
 
 ---
 
-### `GET /api/fitness/users/me/progress?id={workoutID}` *
+### `GET /api/fitness/users/me/progress?courseId={courseId}` *
+
+Получить прогресс пользователя по всему курсу. 
+
+#### ✅ Response
+
+```json
+{
+    "courseId": "q02a6i",
+    "courseCompleted": false,
+    "workoutsProgress": [
+        {
+            "workoutId": "17oz5f",
+            "workoutCompleted": true,
+            "progressData": [
+                10,
+                30,
+                15
+            ],
+        },
+        {
+            "workoutId": "xlpkqy",
+            "workoutCompleted": false,
+            "progressData": [
+                1,
+                10,
+                4
+            ],
+        },
+    ],
+}
+```
+
+---
+
+### `GET /api/fitness/users/me/progress?courseId={courseId}&workoutId={workoutID}` *
 
 Получить прогресс пользователя по тренировке.
+
+#### ✅ Response
+
+```json
+{
+    "workoutId": "17oz5f",
+    "workoutCompleted": true,
+    "progressData": [
+        10,
+        30,
+        15
+    ],
+}
+```
+
+---
+
+### `PATCH /api/fitness/courses/[courseId]/workouts/[workoutId]` *
+
+Сохранить прогресс тренировки.
 
 `progressData` - число повторений для каждого упражнения. Длина массива progressData должна совпадать с количеством упражнений в тренировке. 
 
@@ -256,37 +331,25 @@ REST API для фитнес-приложения.
 
 В случае, если прогресс по остальным упражнениям уже был, необходимо указать его без изменений. Например, было `[1, 7, 0, 10]`. Мы хотим записать 5 повторений третьего упражнения. Нужно передать `[1, 7, 5, 10]`.
 
-#### ✅ Response
-
-```json
-[
-  {
-    "workoutId": "pyvaec",
-    "progressData": [1, 2, 3]
-  }
-]
-```
-
----
-
-### `POST /api/fitness/users/me/progress` *
-
-Сохранить прогресс тренировки.
-
 #### 🔸 Body
 
 ```json
 {
-  "workoutId": "17oz5f",
   "progressData": [10, 10, 15]
 }
 ```
+
+---
+
+### `PATCH /api/fitness/courses/[courseId]/workouts/[workoutId]/reset` *
+
+Удалить весь прогресс по тренировке.
 
 #### ✅ Response
 
 ```json
 {
-  "message": "Прогресс по данной тренировке отмечен!"
+  "message": "Прогресс тренировки удалён!"
 }
 ```
 

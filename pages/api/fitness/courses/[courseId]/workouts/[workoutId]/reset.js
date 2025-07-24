@@ -22,7 +22,7 @@ export default async function handler(req, res) {
 
   try {
     await restartWorkoutForUser(decoded.id, courseId, workoutId);
-    res.status(200).json({ message: "Прогресс курса удалён!" });
+    res.status(200).json({ message: "Прогресс тренировки удалён!" });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
