@@ -1,4 +1,5 @@
 import { MongoClient } from "mongodb";
+import mongoose from "mongoose";
 
 // TODO: сделать проверку на индексы в users
 
@@ -41,5 +42,29 @@ export async function connectToDatabase() {
   return {
     client: cachedClient,
     db: cachedDb,
+  };
+}
+
+let cachedMongooseClient = null;
+
+export async function connectToMongoose() {
+  // check the cached.
+  if (cachedMongooseClient && cachedDb) {
+    // load from cache
+    return {
+      client: cachedClient,
+      db: cachedDb,
+    };
+  }
+
+  // Connect to cluster
+  cachedMongooseClient = await mongoose.connect(MONGODB_URI, {
+    dbName: MONGODB_DB,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+
+  return {
+    mongooseClient: cachedMongooseClient,
   };
 }
