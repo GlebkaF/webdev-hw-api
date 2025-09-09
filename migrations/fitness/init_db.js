@@ -285,7 +285,7 @@ const workoutData = {
       },
       {
         name: "Отпустить колено на пол из позы лотоса с соединенными стопами (10 повторений)",
-        quanity: 10,
+        quantity: 10,
       },
     ],
     name: "Растягиваем мышцы бедра / Йога на каждый день / 4 день / Алексей Казубский",
@@ -397,7 +397,7 @@ export async function seedDatabase() {
       useUnifiedTopology: true,
     });
 
-    await runProgressAndCoursesMigration();
+    //await runProgressAndCoursesMigration();
     await Course.deleteMany({});
     await Workout.deleteMany({});
 
