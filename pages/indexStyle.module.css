@@ -1,0 +1,68 @@
+.homePage {
+    width: 100%;
+    padding: 0 calc(50% - 600px);
+    background-color: var(--bg-primary);
+}
+
+.homePage__container {
+    width: 100%;
+    padding: 10px 0 81px;
+}
+
+.container__text {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+
+.text__title {
+    font-weight: 500;
+    font-size: 60px;
+    line-height: 100%;
+    letter-spacing: 0px;
+    width: 840px;
+}
+
+.text__sloganWrapper {
+    position: relative;
+    width: 288px;
+}
+
+.text__slogan {
+    background-color: var(--bg-block);
+    border-radius: 5px;
+    padding: 16px 20px;
+}
+
+.text__sloganTitle {
+    font-weight: 400;
+    font-size: 32px;
+    letter-spacing: 0px;
+    color: rgba(32, 32, 32, 1);
+}
+
+.text__sloganImg {
+    position: absolute;
+    right: 142px;
+    top: 103px;
+    z-index: 1;
+}
+
+/* Блок карточек */
+.container__cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 40px;
+    margin-bottom: 34px;
+}
+
+.container__btn {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.container__btnUp {
+    width: 127px;
+    text-align: center;
+}

@@ -1,0 +1,214 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-primary);
+  /* position: sticky;
+  top: 0;
+  z-index: 10; */
+  width: 100%;
+  padding: 24px calc(50% - 600px);
+  box-sizing: border-box;
+}
+
+.header__container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.container__linkLogo {
+  display: flex;
+  align-items: center;
+}
+
+.container__text {
+  color: var(--text-primary);
+  font-size: 18px;
+  margin-top: 15px;
+}
+
+.header__auth {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.header__btnLogin {
+  width: 103px;
+  height: 52px;
+}
+
+/* Profile Menu */
+.header__profileMenu {
+  position: relative;
+}
+
+.header__profileButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: var(--bg-secondary, #f3f4f6);
+  border: none;
+  border-radius: 46px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
+.header__profileButton:hover {
+  background: var(--bg-hover, #e5e7eb);
+}
+
+.header__userName {
+  font-weight: 500;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.header__chevron {
+  transition: transform 0.2s ease;
+  color: var(--text-secondary, #6b7280);
+}
+
+.header__chevronUp {
+  transform: rotate(180deg);
+}
+
+/* Dropdown Menu */
+.header__dropdownMenu {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  background: var(--bg-primary, #ffffff);
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  min-width: 260px;
+  z-index: 1000;
+  animation: header__slideDown 0.2s ease;
+}
+
+@keyframes header__slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.header__userInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-color, #e5e7eb);
+}
+
+.header__userInfoAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bg-secondary, #d1d5db);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary, #6b7280);
+  flex-shrink: 0;
+}
+
+.header__userInfoText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.header__userInfoName {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.header__userInfoEmail {
+  font-size: 13px;
+  color: var(--text-secondary, #6b7280);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.header__menuButton {
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 46px;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: none;
+  font-family: inherit;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+}
+
+.header__menuButton:last-child {
+  margin-bottom: 0;
+}
+
+/* Глобальные классы кнопок (оставляем как у тебя) */
+.btn-primary {
+  background: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-primary:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-outline {
+  border: 1px solid #007bff;
+  color: #007bff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-outline:hover {
+  background: #f0f7ff;
+  transform: translateY(-2px);
+}
+
+.btn-outline:active {
+  transform: scale(0.98);
+}
