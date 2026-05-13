@@ -1,16 +1,31 @@
-/* import { useEffect, useState } from "react";
-import { api } from "@/services/api"; 
-import type { Course } from "@/types/api";
-import CourseCard from "@/components/CourseCard/CourseCard";
-import styles from "./HomePage.module.css";
-import sloganImg from "@/assets/sloganImg.png"; */
-
-import styles from "./indexStyle.module.css";
+import { useState, useEffect } from "react";
 import Header from "./Header/Header";
+import CourseCard, { type Course } from "./CourseCard/CourseCard";
+import styles from "./indexStyle.module.css";
 import Image from "next/image";
-
+import { apiFetch } from "@/libs/apiConfig";
+import { MOCK_COURSES } from "@/libs/mockCourses";
 
 export default function HomePage() {
+    const [courses, setCourses] = useState<Course[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchCourses = async () => {
+            try {
+                const data = await apiFetch("/courses");                
+                setCourses(Array.isArray(data) ? data : []);
+            } catch (err) {
+                setCourses(MOCK_COURSES as Course[]);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchCourses();
+    }, []);
+
+    const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
     return (
         <div className={styles.homePage}>
             <Header />
@@ -36,12 +51,25 @@ export default function HomePage() {
                     </div>
                 </section>
 
-                {/* Рендерим СПИСОК карточек, передавая КАЖДОМУ курс через props */}
-                <section className={styles.container__cards}></section>
+                <section className={styles.container__cards}>
+                    {loading ? (
+                        <p className={styles.loadingText}>Загрузка курсов...</p>
+                    ) : courses.length > 0 ? (
+                        courses.map((course) => (
+                            <CourseCard
+                                key={course._id || course.id}
+                                course={course}
+                            />
+                        ))
+                    ) : (
+                        <p className={styles.emptyText}>Курсов пока нет 😔</p>
+                    )}
+                </section>
 
                 <section className={styles.container__btn}>
                     <button
                         className={`${styles.container__btnUp} btn-primary`}
+                        onClick={scrollToTop}
                     >
                         Наверх ↑
                     </button>

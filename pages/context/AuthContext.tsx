@@ -6,6 +6,7 @@ import {
     ReactNode,
 } from "react";
 import { useRouter } from "next/router";
+import { apiFetch } from "@/libs/apiConfig";
 
 type User = { email: string } | null;
 
@@ -26,48 +27,52 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
 
-    //  Проверяем токен при каждой загрузке страницы
+    // Проверяем токен при загрузке
     useEffect(() => {
         const savedToken = localStorage.getItem("fitness_token");
         if (savedToken) {
             setToken(savedToken);
-            // Для демо считаем, что если токен есть → пользователь вошёл
-            // В продакшене тут можно декодировать JWT или сделать запрос /users/me
+            // В демо-режиме считаем, что токен = авторизован
             setUser({ email: "user@skyfitness.pro" });
         }
         setIsLoading(false);
     }, []);
 
-    // 🔹 Вход
+    // Вход (используем apiFetch → удалённый бэкенд)
     const login = async (email: string, password: string) => {
-        const res = await fetch("/api/fitness/auth/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password }),
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || "Ошибка входа");
+        try {
+            // apiFetch сам добавит baseURL, токен и заголовки
+            const data = await apiFetch("/auth/login", {
+                method: "POST",
+                body: JSON.stringify({ email, password }),
+            });
 
-        localStorage.setItem("fitness_token", data.token);
-        setToken(data.token);
-        setUser({ email });
-        router.push("/"); // Перенаправляем на главную
+            // data уже распарсен, токен в data.token
+            localStorage.setItem("fitness_token", data.token);
+            setToken(data.token);
+            setUser({ email });
+            router.push("/");
+        } catch (err: any) {
+            // apiFetch уже бросил ошибку с сообщением от сервера
+            throw new Error(err.message || "Ошибка входа");
+        }
     };
 
-    // 🔹 Регистрация
+    // Регистрация (аналогично)
     const register = async (email: string, password: string) => {
-        const res = await fetch("/api/fitness/auth/register", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password }),
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || "Ошибка регистрации");
-        // После регистрации обычно просим войти, или сразу логиним:
-        await login(email, password);
+        try {
+            const data = await apiFetch("/auth/register", {
+                method: "POST",
+                body: JSON.stringify({ email, password }),
+            });
+            // После регистрации сразу логиним
+            await login(email, password);
+        } catch (err: any) {
+            throw new Error(err.message || "Ошибка регистрации");
+        }
     };
 
-    // 🔹 Выход
+    // Выход
     const logout = () => {
         localStorage.removeItem("fitness_token");
         setToken(null);

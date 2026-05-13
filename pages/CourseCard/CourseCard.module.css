@@ -1,0 +1,80 @@
+.cards__course {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 100%;
+    min-width: 280px;
+    border-radius: 30px;
+    box-shadow: var(--shadow-all);
+    background-color: var(--bg-secondary);
+}
+
+.cards__bg {
+    /*
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    text-align: right; 
+    */
+
+    width: 100%;
+    height: 325px;
+    border-radius: 0 0 30px 30px;
+    overflow: hidden;
+    background-color: var(--btn-secondary);
+    text-align: right;
+    padding-top: 27px;
+    padding-right: 27px;
+    position: relative;
+}
+
+.cards__btnAddCourse {
+    /* 
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; 
+    */
+
+    position: relative;
+    z-index: 2;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    outline: none;
+}
+
+.cards__content {
+    width: 100%;
+    padding: 24px 30px 15px;
+}
+
+.cards__name {
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 110%;
+    letter-spacing: 0px;
+    margin-bottom: 20px;
+}
+
+.cards__meta {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.cards__item {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 8px;
+    width: fit-content;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 110%;
+    letter-spacing: 0px;
+    border-radius: 50px;
+    padding: 10px;
+    background-color: var(--bg-line);
+}
