@@ -1,0 +1,22 @@
+.linkLogo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: opacity 0.2s ease;
+}
+
+.linkLogo:hover {
+    opacity: 0.7;
+}
+
+.linkLogo__img {
+    margin-top: 4px;
+}
+
+.linkLogo__title {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+}

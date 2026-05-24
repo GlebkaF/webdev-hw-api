@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import Header from "./Header/Header";
-import CourseCard, { type Course } from "./CourseCard/CourseCard";
+import Header from "../components/Header/Header";
+import CourseCard from "../components/CourseCard/CourseCard";
+import type { Course } from "@/types/course";
 import styles from "./indexStyle.module.css";
 import Image from "next/image";
 import { apiFetch } from "@/libs/apiConfig";
@@ -13,7 +14,7 @@ export default function HomePage() {
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                const data = await apiFetch("/courses");                
+                const data = await apiFetch("/courses");
                 setCourses(Array.isArray(data) ? data : []);
             } catch (err) {
                 setCourses(MOCK_COURSES as Course[]);

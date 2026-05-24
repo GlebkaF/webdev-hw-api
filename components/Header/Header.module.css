@@ -18,11 +18,6 @@
   justify-content: center;
 }
 
-.container__linkLogo {
-  display: flex;
-  align-items: center;
-}
-
 .container__text {
   color: var(--text-primary);
   font-size: 18px;
@@ -168,7 +163,7 @@
   margin-bottom: 0;
 }
 
-/* Глобальные классы кнопок (оставляем как у тебя) */
+/* Глобальные классы кнопок */
 .btn-primary {
   background: #007bff;
   color: white;

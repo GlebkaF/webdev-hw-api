@@ -1,7 +1,7 @@
 .backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0);
   z-index: 100;
   animation: fadeIn 0.2s ease;
 }
@@ -15,6 +15,7 @@
   background: transparent;
   z-index: 200;
   pointer-events: none;
+  background-color: #ffffff00;
 }
 
 .authModal {
@@ -28,24 +29,18 @@
   z-index: 300;
 }
 
-.logo {
+.authModal__linkLogo {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 40px;
   justify-content: center;
-}
-
-.logoText {
-  font-size: 24px;
-  font-weight: 600;
-  color: #1a1a1a;
+  margin-bottom: 48px;
 }
 
 .form {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  margin-top: 48px;
 }
 
 .input {

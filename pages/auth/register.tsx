@@ -2,22 +2,28 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAuth } from "@/pages/context/AuthContext";
-import Image from "next/image";
-import styles from "./AuthPage.module.css";
+import Logo from "../../components/Logo/Logo";
+import styles from "./authPage.module.css";
 
-export default function LoginPage() {
+export default function RegisterPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
-    const { login, isLoading } = useAuth();
+    const { register, isLoading } = useAuth();
     const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
 
+        if (password !== confirmPassword) {
+            setError("Пароли не совпадают");
+            return;
+        }
+
         try {
-            await login(email, password);
+            await register(email, password);
             router.push("/");
         } catch (err: unknown) {
             let message = "Ошибка соединения с сервером";
@@ -46,20 +52,12 @@ export default function LoginPage() {
                     className={styles.authModal}
                     onClick={(e) => e.stopPropagation()}
                 >
-                    <div className={styles.logo}>
-                        <Image
-                            src="/img/logo.png"
-                            alt="SkyFitnessPro"
-                            width={220}
-                            height={35}
-                            priority
-                        />
-                    </div>
+                    <Logo />
 
                     <form onSubmit={handleSubmit} className={styles.form}>
                         <input
                             type="email"
-                            placeholder="Логин"
+                            placeholder="Эл. почта"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             className={styles.input}
@@ -73,19 +71,29 @@ export default function LoginPage() {
                             className={styles.input}
                             required
                         />
+                        <input
+                            type="password"
+                            placeholder="Повторите пароль"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            className={styles.input}
+                            required
+                        />
                         {error && <div className={styles.error}>{error}</div>}
                         <button
                             type="submit"
                             className={`${styles.btn} ${styles.btnPrimary}`}
                             disabled={isLoading}
                         >
-                            {isLoading ? "Вход..." : "Войти"}
+                            {isLoading
+                                ? "Регистрация..."
+                                : "Зарегистрироваться"}
                         </button>
                         <Link
-                            href="/register"
+                            href="/login"
                             className={`${styles.btn} ${styles.btnSecondary}`}
                         >
-                            Зарегистрироваться
+                            Войти
                         </Link>
                     </form>
                 </div>

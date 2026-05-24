@@ -1,18 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
+import type { Course } from "@/types/course";
 import styles from "./CourseCard.module.css";
-
-export interface Course {
-    _id: string;
-    id?: string;
-    nameRU?: string;
-    title?: string;
-    name?: string;
-    imageBG?: string;
-    image?: string;
-    durationInDays?: number;
-    dailyDurationInMinutes?: { from?: number; to?: number };
-}
 
 interface CourseCardProps {
     course: Course;
@@ -25,8 +14,6 @@ const COURSE_IMAGES: Record<string, string> = {
     Фитнес: "/img/3-fitness-l.png",
     "Степ-аэробика": "/img/4-aerobics-l.png",
     Бодифлекс: "/img/5-bodyflex-l.png",
-
-    // Варианты на английском (если придут с API)
     Yoga: "/img/1-yoga-l.png",
     Stretching: "/img/2-stretching-l.png",
     Fitness: "/img/3-fitness-l.png",
@@ -37,7 +24,6 @@ const COURSE_IMAGES: Record<string, string> = {
 export default function CourseCard({ course }: CourseCardProps) {
     const title = course.nameRU || course.title || course.name || "Курс";
 
-    // Ищем картинку: сначала из API, потом по словарю, потом фолбэк
     const bgImage =
         course.imageBG ||
         course.image ||
@@ -61,7 +47,7 @@ export default function CourseCard({ course }: CourseCardProps) {
                     aria-label="Добавить курс"
                 >
                     <Image
-                        src="/img/btnAddIcon.png" 
+                        src="/img/btnAddIcon.png"
                         alt="add"
                         width={27}
                         height={27}

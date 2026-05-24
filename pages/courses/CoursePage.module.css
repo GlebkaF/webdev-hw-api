@@ -1,0 +1,268 @@
+.page {
+    min-height: 100vh;
+    background: #fff;
+}
+
+/* Загрузка / не найдено */
+.loading, .notFound {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    text-align: center;
+}
+
+.backLink {
+    margin-top: 16px;
+    color: #84cc16;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* Шапка */
+.header {
+    background: #FFD600;
+    padding: 40px 20px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 0 0 16px 16px;
+}
+
+.header__content {
+    flex: 1;
+}
+
+.header__title {
+    font-size: 48px;
+    font-weight: 700;
+    margin: 0 0 16px 0;
+    color: #1a1a1a;
+}
+
+.header__description {
+    font-size: 18px;
+    margin: 0 0 24px 0;
+    color: #333;
+    line-height: 1.5;
+}
+
+.header__meta {
+    display: flex;
+    gap: 24px;
+    font-size: 16px;
+    color: #555;
+}
+
+.header__image {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    flex-shrink: 0;
+}
+
+/* Секции */
+.section {
+    max-width: 1200px;
+    margin: 48px auto;
+    padding: 0 20px;
+}
+
+.section__title {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0 0 24px 0;
+    color: #1a1a1a;
+}
+
+/* Условия */
+.conditions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.condition {
+    flex: 1;
+    min-width: 280px;
+    background: #1a1a1a;
+    color: #fff;
+    padding: 24px;
+    border-radius: 12px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.condition__number {
+    font-size: 32px;
+    font-weight: 700;
+    color: #84cc16;
+    min-width: 40px;
+}
+
+.condition p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Направления */
+.directions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    background: #84cc16;
+    padding: 24px;
+    border-radius: 12px;
+}
+
+.direction {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+    color: #1a1a1a;
+    font-weight: 500;
+}
+
+/* CTA-блок с бегуном */
+.cta {
+    max-width: 1200px;
+    margin: 48px auto;
+    padding: 40px 20px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    background: #fff;
+    border: 2px solid #e5e5e5;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta__content {
+    flex: 1;
+    z-index: 1;
+}
+
+.cta__title {
+    font-size: 36px;
+    font-weight: 700;
+    margin: 0 0 24px 0;
+    color: #1a1a1a;
+}
+
+.benefits {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 32px 0;
+}
+
+.benefits li {
+    padding: 8px 0;
+    color: #666;
+    position: relative;
+    padding-left: 24px;
+}
+
+.benefits li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #84cc16;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+/* Кнопки */
+.btn {
+    background: #84cc16;
+    color: #fff;
+    border: none;
+    padding: 16px 32px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn__primary:hover {
+    background: #65a30d;
+    transform: translateY(-2px);
+}
+
+.btn__login {
+    background: #3b82f6;
+}
+
+.btn__login:hover {
+    background: #2563eb;
+}
+
+.btn__added {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.cta__image {
+    flex-shrink: 0;
+    position: relative;
+}
+
+/* Декоративный круг */
+.cta::before {
+    content: "";
+    position: absolute;
+    right: -80px;
+    top: 50%;
+    width: 250px;
+    height: 250px;
+    border: 4px solid #84cc16;
+    border-radius: 50%;
+    opacity: 0.2;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .header__meta {
+        justify-content: center;
+    }
+    
+    .header__image {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .conditions {
+        flex-direction: column;
+    }
+    
+    .directions {
+        grid-template-columns: 1fr;
+    }
+    
+    .cta {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .benefits li {
+        text-align: left;
+    }
+    
+    .cta__image {
+        order: -1;
+    }
+}
