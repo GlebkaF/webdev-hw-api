@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useAuth } from "@/pages/context/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 import Logo from "../../components/Logo/Logo";
 import styles from "./authPage.module.css";
 

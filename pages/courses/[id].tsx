@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { apiFetch } from "@/libs/apiConfig";
 import { MOCK_COURSES } from "@/libs/mockCourses";
 import type { Course } from "@/types/course";

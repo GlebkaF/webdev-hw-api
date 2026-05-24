@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { useAuth } from "@/pages/context/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 import styles from "./Header.module.css";
 import Logo from "../../components/Logo/Logo";
 
