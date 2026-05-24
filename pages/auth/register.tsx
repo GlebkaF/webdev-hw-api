@@ -90,7 +90,7 @@ export default function RegisterPage() {
                                 : "Зарегистрироваться"}
                         </button>
                         <Link
-                            href="/login"
+                            href="/auth/login"
                             className={`${styles.btn} ${styles.btnSecondary}`}
                         >
                             Войти

@@ -74,7 +74,7 @@ export default function LoginPage() {
                             {isLoading ? "Вход..." : "Войти"}
                         </button>
                         <Link
-                            href="/register"
+                            href="/auth/register"
                             className={`${styles.btn} ${styles.btnSecondary}`}
                         >
                             Зарегистрироваться
