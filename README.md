@@ -1,38 +1,81 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# SkyFitnessPro — Дипломный проект
 
-## Getting Started
+## 📖 Описание
 
-First, run the development server:
+Веб-приложение для фитнес-платформы, позволяющее пользователям просматривать курсы, проходить тренировки, отслеживать прогресс и управлять своим профилем. Разработано в рамках дипломного проекта.
+
+## 🛠 Стек технологий
+
+- **Frontend:** Next.js (Pages Router), React, TypeScript
+- **Стилизация:** styled-components
+- **База данных:** MongoDB (драйвер `mongodb`)
+- **Аутентификация:** JWT-токены, localStorage, React Context
+- **Деплой:** Cloudflare Pages (настройка в процессе)
+- **Инструменты:** Git, npm, ESLint (планируется), Jest (планируется)
+
+## ✅ Реализованный функционал
+
+- [x] Маршрутизация и защита страниц (Middleware)
+- [x] Динамические страницы курсов (`/courses/[id]`)
+- [x] API-роуты для работы с курсами, тренировками, пользователями и прогрессом
+- [x] TypeScript-интерфейсы для типизации данных
+- [x] Базовая структура аутентификации (формы входа/регистрации)
+- [x] Интеграция с MongoDB (локальная разработка)
+- [x] Настройка Cloudflare Pages (базовый деплой)
+
+## 📁 Структура проекта
+
+### SkyFitnessPro---diploma-thesis/
+
+├── pages/ # Маршруты и API-роуты
+├── components/ # Переиспользуемые UI-компоненты
+├── libs/ # Утилиты, работа с БД, API-клиент
+├── context/ # React Context (AuthContext)
+├── types/ # TypeScript интерфейсы
+├── public/ # Статические файлы (изображения, иконки)
+├── styles/ # Глобальные стили
+└── package.json # Зависимости и скрипты
+
+## 🚀 Локальный запуск
+
+1. Установите зависимости:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+    npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Запустите локальную MongoDB (порт 27017).
+3. Создайте файл .env.local в корне проекта:
+    - MONGODB_URI=mongodb://127.0.0.1:27017/skyfitness
+    - MONGODB_DB=skyfitness
+    - JWT_SECRET=your_secret_key_here
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+4. Запустите сервер разработки:
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+```bash
+    npm run dev
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+5. Откройте http://localhost:3000
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## 🌐 Деплой
 
-## Learn More
+### Проект настроен для развёртывания на Cloudflare Pages.
 
-To learn more about Next.js, take a look at the following resources:
+- Автоматический деплой при пуше в ветку main
+- Переменные окружения настраиваются в панели Cloudflare
+- Примечание: На текущем этапе деплой находится в стадии тестирования. Основная разработка ведётся локально.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📋 Планы развития (TODO)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Доработка страниц авторизации и регистрации
+- Реализация отображения тренировок внутри курса
+- Функционал отметки прогресса тренировок
+- Личный кабинет пользователя (мои курсы, статистика)
+- Настройка ESLint + Prettier
+- Написание тестов (Jest + React Testing Library)
+- Финальная настройка и оптимизация деплоя
 
-## Deploy on Vercel
+## 👤 Автор
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Анна Морозовав (AnnaM-7777777) | Дипломный проект, 2026
