@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { useAuth } from "@/pages/context/AuthContext";
 import styles from "./Header.module.css";
+import Logo from "../../components/Logo/Logo";
 
 export default function Header() {
     const { user, logout, isLoading } = useAuth();
@@ -44,15 +44,7 @@ export default function Header() {
     return (
         <header className={styles.header}>
             <div className={styles.header__container}>
-                <Link href="/" className={styles.container__linkLogo}>
-                    <Image
-                        src="/img/logo.png"
-                        alt="SkyFitnessPro"
-                        width={220}
-                        height={35}
-                        priority
-                    />
-                </Link>
+                <Logo />
 
                 <p className={styles.container__text}>
                     Онлайн-тренировки для занятий дома
