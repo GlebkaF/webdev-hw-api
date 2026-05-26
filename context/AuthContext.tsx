@@ -6,7 +6,11 @@ import {
     ReactNode,
 } from "react";
 import { useRouter } from "next/router";
-import { apiFetch } from "@/libs/apiConfig";
+import {
+    login as authLogin,
+    register as authRegister,
+    type AuthUser,
+} from "@/libs/apiAuth";
 
 type User = { email: string } | null;
 
@@ -41,32 +45,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Вход (используем apiFetch → удалённый бэкенд)
     const login = async (email: string, password: string) => {
         try {
-            // apiFetch сам добавит baseURL, токен и заголовки
-            const data = await apiFetch("/auth/login", {
-                method: "POST",
-                body: JSON.stringify({ email, password }),
-            });
+            // 👇 Передаём email как login, потому что внешний API так ожидает
+            const user: AuthUser = await authLogin({ login: email, password });
 
-            // data уже распарсен, токен в data.token
-            localStorage.setItem("fitness_token", data.token);
-            setToken(data.token);
-            setUser({ email });
+            if (user.token) {
+                localStorage.setItem("fitness_token", user.token);
+                setToken(user.token);
+            }
+
+            // Маппим: login из API → email в нашем стейте
+            setUser({ email: user.login });
             router.push("/");
         } catch (err: any) {
-            // apiFetch уже бросил ошибку с сообщением от сервера
             throw new Error(err.message || "Ошибка входа");
         }
     };
 
-    // Регистрация (аналогично)
     const register = async (email: string, password: string) => {
         try {
-            const data = await apiFetch("/auth/register", {
-                method: "POST",
-                body: JSON.stringify({ email, password }),
+            const user: AuthUser = await authRegister({
+                login: email,
+                password,
+                name: email.split("@")[0], // генерируем имя из почты
             });
-            // После регистрации сразу логиним
-            await login(email, password);
+
+            if (user.token) {
+                localStorage.setItem("fitness_token", user.token);
+                setToken(user.token);
+            }
+
+            setUser({ email: user.login });
+            router.push("/");
         } catch (err: any) {
             throw new Error(err.message || "Ошибка регистрации");
         }

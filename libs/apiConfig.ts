@@ -4,7 +4,7 @@ export async function apiFetch(endpoint: string, options: RequestInit = {}) {
   const token = typeof window !== 'undefined' ? localStorage.getItem('fitness_token') : null;
   
   const headers = {
-    'Content-Type': '', // Пустая строка, как в оригинальном коде
+    'Content-Type': '',
     ...(token && { Authorization: `Bearer ${token}` }),
     ...options.headers,
   };
