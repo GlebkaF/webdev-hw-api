@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import Header from "../components/Header/Header";
 import CourseCard from "../components/CourseCard/CourseCard";
 import type { Course } from "@/types/course";
@@ -6,10 +7,32 @@ import styles from "./indexStyle.module.css";
 import Image from "next/image";
 import { apiFetch } from "@/libs/apiConfig";
 import { MOCK_COURSES } from "@/libs/mockCourses";
+import LoginModal from "../components/Auth/LoginModal";
+import RegisterModal from "../components/Auth/RegisterModal";
 
 export default function HomePage() {
     const [courses, setCourses] = useState<Course[]>([]);
     const [loading, setLoading] = useState(true);
+
+    // Состояние для модальных окон
+    const [activeModal, setActiveModal] = useState<"login" | "register" | null>(
+        null,
+    );
+    const router = useRouter();
+
+    // Следим за изменением параметров в адресной строке
+    useEffect(() => {
+        const { modal } = router.query;
+        if (modal === "login") setActiveModal("login");
+        else if (modal === "register") setActiveModal("register");
+        else setActiveModal(null);
+    }, [router.query]);
+
+    // Функция закрытия модального окна
+    const closeModal = () => {
+        router.push("/", undefined, { shallow: true });
+        setActiveModal(null);
+    };
 
     useEffect(() => {
         const fetchCourses = async () => {
@@ -76,6 +99,18 @@ export default function HomePage() {
                     </button>
                 </section>
             </main>
+
+            {/* Рендерим модальные окна ПОВЕРХ главной страницы */}
+            {activeModal === "login" && (
+                <div className={styles.modalWrapper}>
+                    <LoginModal onClose={closeModal} />
+                </div>
+            )}
+            {activeModal === "register" && (
+                <div className={styles.modalWrapper}>
+                    <RegisterModal onClose={closeModal} />
+                </div>
+            )}
         </div>
     );
 }

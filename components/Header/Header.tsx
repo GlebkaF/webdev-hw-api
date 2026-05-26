@@ -150,7 +150,7 @@ export default function Header() {
                 ) : (
                     // Пользователь НЕ авторизован → показываем кнопку "Войти"
                     <Link
-                        href="/auth/login"
+                        href="/?modal=login"
                         className={`${styles.header__btnLogin} btn-primary`}
                     >
                         Войти

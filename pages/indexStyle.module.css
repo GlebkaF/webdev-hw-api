@@ -66,3 +66,13 @@
     width: 127px;
     text-align: center;
 }
+
+/* 👇 Контейнер для модального окна поверх контента */
+.modalWrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

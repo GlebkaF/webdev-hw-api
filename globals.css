@@ -6,6 +6,7 @@
   --bg-dark-gradient-1: rgba(21, 23, 32, 1);
   --bg-dark-gradient-2: rgba(30, 33, 46, 1);
   --bg-block: rgba(188, 236, 48, 1); /* Фон небольших блоков на странице */
+  --bg-error: rgba(219, 0, 48, 1); /* цвет ошибки (текст, бордер, фон) */
 
   /* Кнопки, ссылки */
   --btn-primary: rgba(188, 236, 48, 1);
@@ -26,7 +27,6 @@
   --border-btn-secondary: rgba(0, 0, 0, 1); /* border кнопки */
   --border-btn-secondary-noActive: rgba(153, 153, 153, 1); /* border кнопки */
   --border-input: rgba(208, 206, 206, 1); /* border input */
-  --border-input-error: rgba(219, 0, 48, 1); /* border input error */
   --border-bottom-list: rgba(196, 196, 196, 1); /* border нижний в списке тренировок */
   /* --border-line: rgba(247, 247, 247, 1); */ /* border фильтра при active */
 
