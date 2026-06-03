@@ -5,6 +5,9 @@ import { useAuth } from "@/context/AuthContext";
 import Logo from "../Logo/Logo";
 import styles from "./StyleModal.module.css";
 
+// Проверка формата email
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 type LoginModalProps = {
     onClose: () => void;
 };
@@ -13,8 +16,6 @@ export default function LoginModal({ onClose }: LoginModalProps) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-
-    // Отслеживает, какое поле невалидно
     const [fieldErrors, setFieldErrors] = useState({
         email: false,
         password: false,
@@ -28,11 +29,21 @@ export default function LoginModal({ onClose }: LoginModalProps) {
         setError("");
         setFieldErrors({ email: false, password: false });
 
+        // 1. Проверка: пустое поле email
         if (!email.trim()) {
             setFieldErrors((prev) => ({ ...prev, email: true }));
             setError("Введите адрес электронной почты");
             return;
         }
+
+        // 2. Проверка: формат email
+        if (!EMAIL_REGEX.test(email)) {
+            setFieldErrors((prev) => ({ ...prev, email: true }));
+            setError("Введите корректный email (например: name@example.com)");
+            return;
+        }
+
+        // 3. Проверка: пустое поле пароль
         if (!password.trim()) {
             setFieldErrors((prev) => ({ ...prev, password: true }));
             setError("Введите пароль");
@@ -42,15 +53,29 @@ export default function LoginModal({ onClose }: LoginModalProps) {
         try {
             await login(email, password);
             onClose();
-        } catch (err: unknown) {
-            let message = "Ошибка соединения с сервером";
-            if (err instanceof Error) message = err.message;
+                } catch (err: unknown) {
 
-            if (message.includes("404")) {
-                message = "Сервер не найден.";
-            } else if (message.includes("400")) {
-                message = "Неверные данные. Проверьте почту и пароль.";
+            // 1. Начинаем с универсального сообщения для ошибок авторизации
+            let message = "Неверные данные. Проверьте почту и пароль";
+            
+            if (err instanceof Error) {
+                const lowerMsg = err.message.toLowerCase();
+                
+                // 2. Если сервер явно сказал "не найден" — показываем это
+                if (lowerMsg.includes("not found") || lowerMsg.includes("не найден")) {
+                    message = "Пользователь с таким email не найден";
+                    setFieldErrors((prev) => ({ ...prev, email: true }));
+                } 
+                // 3. Если сервер явно сказал про пароль — показываем это
+                else if (lowerMsg.includes("password") || lowerMsg.includes("пароль") || lowerMsg.includes("неверн")) {
+                    message = "Неверный пароль";
+                    setFieldErrors((prev) => ({ ...prev, password: true }));
+                }
+                // 4. Для всего остального (включая "400") оставляем универсальное сообщение
+                // (явное условие для 400 не нужно, так как это уже значение по умолчанию)
             }
+            
+            // 5. Гарантированно показываем сообщение
             setError(message);
         }
     };
@@ -66,7 +91,11 @@ export default function LoginModal({ onClose }: LoginModalProps) {
                 >
                     <Logo />
 
-                    <form onSubmit={handleSubmit} className={styles.form}>
+                    <form
+                        onSubmit={handleSubmit}
+                        className={styles.form}
+                        noValidate
+                    >
                         <input
                             type="email"
                             placeholder="Логин"
@@ -76,7 +105,7 @@ export default function LoginModal({ onClose }: LoginModalProps) {
                                 setFieldErrors((prev) => ({
                                     ...prev,
                                     email: false,
-                                })); // Сброс ошибки при вводе
+                                }));
                             }}
                             className={`${styles.input} ${fieldErrors.email ? styles.inputError : ""}`}
                         />
@@ -89,7 +118,7 @@ export default function LoginModal({ onClose }: LoginModalProps) {
                                 setFieldErrors((prev) => ({
                                     ...prev,
                                     password: false,
-                                })); // Сброс ошибки при вводе
+                                }));
                             }}
                             className={`${styles.input} ${fieldErrors.password ? styles.inputError : ""}`}
                         />
