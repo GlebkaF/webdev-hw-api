@@ -1,11 +1,10 @@
-import { seedOnlineStore } from "@/migrations/onlineStore/seed";
+import { seedDatabase } from "@/migrations/fitness/init_db";
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
   try {
-    const result = await seedOnlineStore();
-    res.status(200).json(result);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    await seedDatabase();
+    res.status(200).json({ message: "Добавил данные в базу" });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
   }
 }
