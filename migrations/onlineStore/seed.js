@@ -125,21 +125,11 @@ const productsData = [
     },
 ];
 
-export async function seedOnlineStore(force = false) {
+export async function seedOnlineStore() {
     await connectToMongoose();
 
-    // Если force = true или товаров нет – очищаем и вставляем
-    const count = await Product.countDocuments();
-    if (count > 0 && !force) {
-        console.log("Миграция уже выполнена, товаров в базе:", count);
-        return { success: false, message: `Миграция уже выполнена. Товаров: ${count}` };
-    }
-
-    // Удаляем все товары (если есть)
-    if (count > 0) {
-        await Product.deleteMany({});
-        console.log("Старые товары удалены");
-    }
+    await Product.deleteMany({});
+    console.log("Старые товары удалены");
 
     const products = productsData.map((item) => {
         const colors = randomFromArray(colorsList, 1, 4);
