@@ -125,17 +125,22 @@ const productsData = [
     },
 ];
 
-export async function seedOnlineStore() {
+export async function seedOnlineStore(force = false) {
     await connectToMongoose();
 
-    // Проверяем, есть ли уже товары
+    // Если force = true или товаров нет – очищаем и вставляем
     const count = await Product.countDocuments();
-    if (count > 0) {
+    if (count > 0 && !force) {
         console.log("Миграция уже выполнена, товаров в базе:", count);
         return { success: false, message: `Миграция уже выполнена. Товаров: ${count}` };
     }
 
-    // Подготавливаем каждый товар: добавляем случайные цвета, комнаты, срок доставки, популярность
+    // Удаляем все товары (если есть)
+    if (count > 0) {
+        await Product.deleteMany({});
+        console.log("Старые товары удалены");
+    }
+
     const products = productsData.map((item) => {
         const colors = randomFromArray(colorsList, 1, 4);
         const roomTypes = randomFromArray(roomTypesList, 1, 2);
